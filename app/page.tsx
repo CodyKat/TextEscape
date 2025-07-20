@@ -1,103 +1,108 @@
-import Image from "next/image";
+import Link from 'next/link'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Metadata } from 'next'
+import { AdSenseAd } from '@/components/google-ads'
+
+export const metadata: Metadata = {
+  title: 'TEXT-ESCAPE - 텍스트 방탈출 게임',
+  description: '텍스트 기반 방탈출 게임을 즐겨보세요! 다양한 퍼즐과 선택지로 구성된 몰입감 있는 어드벤처 게임입니다.',
+  keywords: ['방탈출', '텍스트 게임', '퍼즐', '어드벤처', '한국어 게임'],
+  openGraph: {
+    title: 'TEXT-ESCAPE - 텍스트 방탈출 게임',
+    description: '텍스트 기반 방탈출 게임을 즐겨보세요!',
+    type: 'website',
+    locale: 'ko_KR',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'TEXT-ESCAPE - 텍스트 방탈출 게임',
+    description: '텍스트 기반 방탈출 게임을 즐겨보세요!',
+  },
+}
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const puzzles = [
+    {
+      id: 'key-puzzle',
+      name: '🔑 열쇠 퍼즐',
+      description: '열쇠를 찾아 문을 열어보세요',
+      path: '/puzzle/key',
+      difficulty: '쉬움'
+    },
+    {
+      id: 'number-puzzle',
+      name: '🔢 숫자 퍼즐',
+      description: '숫자 패드의 비밀을 풀어보세요',
+      path: '/puzzle/number',
+      difficulty: '보통'
+    },
+    {
+      id: 'color-puzzle',
+      name: '🎨 색상 퍼즐',
+      description: '색상 순서를 맞춰보세요',
+      path: '/puzzle/color',
+      difficulty: '보통'
+    },
+    {
+      id: 'piece-puzzle',
+      name: '🧩 조각 퍼즐',
+      description: '퍼즐 조각을 모아 완성해보세요',
+      path: '/puzzle/piece',
+      difficulty: '어려움'
+    }
+  ]
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black pt-20 px-4">
+      <div className="max-w-4xl mx-auto">
+        {/* 메인 타이틀 */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl sm:text-6xl font-bold text-white mb-4 tracking-wider">
+            TEXT-ESCAPE
+          </h1>
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            텍스트 기반 방탈출 게임의 세계에 오신 것을 환영합니다.
+            다양한 퍼즐과 도전을 통해 탈출의 재미를 경험해보세요!
+          </p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        {/* 퍼즐 선택 카드 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+          {puzzles.map((puzzle) => (
+            <Link key={puzzle.id} href={puzzle.path}>
+              <Card className="bg-gray-800/50 border-gray-700 hover:bg-gray-700/50 transition-all duration-300 hover:scale-105 cursor-pointer">
+                <CardHeader>
+                  <CardTitle className="text-2xl text-white">{puzzle.name}</CardTitle>
+                  <CardDescription className="text-gray-300">
+                    {puzzle.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-400">난이도: {puzzle.difficulty}</span>
+                    <span className="text-blue-400 hover:text-blue-300 transition-colors">
+                      시작하기 →
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
+        </div>
+
+        {/* 광고 */}
+        <AdSenseAd adSlot="1234567890" adFormat="banner" />
+
+        {/* 게임 설명 */}
+        <div className="text-center text-gray-400">
+          <p className="mb-4">
+            각 퍼즐은 서로 다른 스토리와 도전을 제공합니다.
+          </p>
+          <p>
+            우측 상단의 메뉴 버튼을 통해 언제든지 다른 퍼즐로 이동할 수 있습니다.
+          </p>
+        </div>
+      </div>
     </div>
-  );
+  )
 }

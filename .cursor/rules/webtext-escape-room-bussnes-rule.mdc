@@ -1,0 +1,6 @@
+---
+description: When you modify the code of a project or modify the configuration file.
+alwaysApply: ture
+---
+
+This project is a version of nextjs 15.4.2 that writes code in an app router manner, but it must create a static file that can be built so that the client does not have page delays.

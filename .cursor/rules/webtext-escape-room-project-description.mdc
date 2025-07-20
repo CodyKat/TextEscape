@@ -1,0 +1,13 @@
+---
+description: When you need to understand the concept of this project
+alwaysApply: false
+---
+This web platform is a text game platform that escapes rooms in various situations. The design is simply a background picture and a text explaining the situation in the middle. It consists of the parts underneath the text that write down the answers when making each choice or solving a partial problem.
+
+We're going to put Google ads on the web, so we need to make sure there's a proper place for Google ads. And when you make each choice or choose a game, the page moves to retrieve the Google ads.
+
+The progress of the game, the puzzle, and the description of the situation are all in text. "You're in a dark room. There's an old door on the front and a bookshelf on the right. It's like: (1) Door Survey (2) Bookshop Survey." The next text changes depending on the choice.
+
+Users have no choice but to go around my web service very often and quickly because there are several clues hidden to escape the room. That's why I plan to have as many static pages as possible when I build a project later.
+
+It's text-based, but the background changes the representative image depending on the puzzle concept and situation of each game, and the text feels like typing.
