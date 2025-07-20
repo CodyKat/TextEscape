@@ -1,5 +1,35 @@
 import { Metadata } from 'next'
 import { getRoom } from '@/lib/game-data'
+import { getPuzzleRoom, getPuzzleData } from '@/lib/puzzle-game-data'
+
+export function generatePuzzleMetadata(puzzleId: string, roomId: string): Metadata {
+  const puzzleData = getPuzzleData(puzzleId)
+  const room = getPuzzleRoom(puzzleId, roomId)
+  
+  if (!puzzleData || !room) {
+    return {
+      title: '퍼즐을 찾을 수 없습니다 - TEXT-ESCAPE',
+      description: '요청하신 퍼즐이나 방을 찾을 수 없습니다.',
+    }
+  }
+
+  return {
+    title: `${room.title} - ${puzzleData.name} - TEXT-ESCAPE`,
+    description: room.description,
+    keywords: ['방탈출', '텍스트 게임', '퍼즐', '어드벤처', '한국어 게임', puzzleData.name],
+    openGraph: {
+      title: `${room.title} - ${puzzleData.name} - TEXT-ESCAPE`,
+      description: room.description,
+      type: 'website',
+      locale: 'ko_KR',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${room.title} - ${puzzleData.name} - TEXT-ESCAPE`,
+      description: room.description,
+    },
+  }
+}
 
 export function generateRoomMetadata(roomId: string): Metadata {
   const room = getRoom(roomId)

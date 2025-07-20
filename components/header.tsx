@@ -15,31 +15,37 @@ export function Header() {
       id: 'key-puzzle',
       name: '🔑 열쇠 퍼즐',
       description: '열쇠를 찾아 문을 열어보세요',
-      path: '/puzzle/key'
+      path: '/game/key'
     },
     {
       id: 'number-puzzle',
       name: '🔢 숫자 퍼즐',
       description: '숫자 패드의 비밀을 풀어보세요',
-      path: '/puzzle/number'
+      path: '/game/number'
     },
     {
       id: 'color-puzzle',
       name: '🎨 색상 퍼즐',
       description: '색상 순서를 맞춰보세요',
-      path: '/puzzle/color'
+      path: '/game/color'
     },
     {
       id: 'piece-puzzle',
       name: '🧩 조각 퍼즐',
       description: '퍼즐 조각을 모아 완성해보세요',
-      path: '/puzzle/piece'
+      path: '/game/piece'
+    },
+    {
+      id: 'study-puzzle',
+      name: '📚 서재 탈출',
+      description: '낡은 서재에서 탈출하세요',
+      path: '/game/study'
     }
   ]
 
   const handlePuzzleSelect = (path: string) => {
-    // 현재 URL이 퍼즐 페이지이고, 다른 퍼즐로 이동하는 경우 경고 표시
-    if (window.location.pathname.startsWith('/puzzle/') && window.location.pathname !== path) {
+    // 현재 URL이 게임 페이지이고, 다른 퍼즐로 이동하는 경우 경고 표시
+    if (window.location.pathname.startsWith('/game/') && window.location.pathname !== path) {
       const confirmed = window.confirm('게임 진행 정보가 손실됩니다. 정말 다른 퍼즐로 이동하시겠습니까?')
       if (confirmed) {
         router.push(path)
@@ -53,8 +59,8 @@ export function Header() {
 
   const handleLogoClick = (e: React.MouseEvent) => {
     e.preventDefault()
-    // 현재 URL이 퍼즐 페이지인지 확인
-    if (window.location.pathname.startsWith('/puzzle/')) {
+    // 현재 URL이 게임 페이지인지 확인
+    if (window.location.pathname.startsWith('/game/')) {
       const confirmed = window.confirm('게임 진행 정보가 손실됩니다. 정말 홈으로 이동하시겠습니까?')
       if (confirmed) {
         router.push('/')

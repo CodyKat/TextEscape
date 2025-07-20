@@ -1,30 +1,65 @@
 'use client'
 
-import { useGameStore } from '@/lib/store'
-import { getRoom } from '@/lib/game-data'
+import { usePuzzleStore } from '@/lib/puzzle-store'
+import { getPuzzleRoom } from '@/lib/puzzle-game-data'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useEffect, useState } from 'react'
+import { canAccessPuzzleRoom, getPuzzleRedirectRoom, getPuzzleStartRoom } from '@/lib/puzzle-progress-guard'
+import { useRouter } from 'next/navigation'
+import { getItemName } from '@/lib/item-constants'
+import { GameExitWarning } from '@/components/game-exit-warning'
 // import { GoogleAds } from '@/components/google-ads'
 // import { AdsStats } from '@/components/ads-stats'
 // import { AnalyticsDashboard } from '@/components/analytics-dashboard'
 // import { ProgressBar } from '@/components/progress-bar'
 
 interface GameScreenProps {
+  puzzleId?: string
   initialRoom?: string
 }
 
-export function GameScreen({ initialRoom }: GameScreenProps) {
-  const { currentRoom, inventory, setCurrentRoom, addToInventory, removeFromInventory } = useGameStore()
-  const [room, setRoom] = useState(getRoom(currentRoom))
+export function GameScreen({ puzzleId = 'key', initialRoom }: GameScreenProps) {
+  const puzzleStore = usePuzzleStore(puzzleId)
+  const { currentRoom, inventory, visitedRooms, gameProgress, setCurrentRoom, addToInventory, removeFromInventory } = puzzleStore
+  const [room, setRoom] = useState(getPuzzleRoom(puzzleId, currentRoom))
   const [imageLoaded, setImageLoaded] = useState(false)
+  const router = useRouter()
 
-  // 초기 방 설정
+  // 초기 방 설정 및 접근 제어
   useEffect(() => {
-    if (initialRoom && initialRoom !== currentRoom) {
-      setCurrentRoom(initialRoom)
+    if (initialRoom) {
+      // 게임 시작 페이지에서 온 경우에만 상태 리셋
+      const isFromGameStart = initialRoom === getPuzzleStartRoom(puzzleId) && 
+                             typeof window !== 'undefined' && 
+                             window.location.search.includes('start=true')
+      
+      if (isFromGameStart) {
+        puzzleStore.resetPuzzle()
+        // 리셋 후 바로 시작 방으로 설정
+        setCurrentRoom(initialRoom)
+        return
+      }
+      
+      if (initialRoom !== currentRoom) {
+        // 현재 방을 먼저 방문 기록에 추가
+        const updatedVisitedRooms = new Set(visitedRooms)
+        updatedVisitedRooms.add(currentRoom)
+        
+        // 접근 권한 확인
+        const accessCheck = canAccessPuzzleRoom(puzzleId, initialRoom, inventory, updatedVisitedRooms, gameProgress)
+        
+        if (!accessCheck.canAccess) {
+          // 접근 불가 시 적절한 방으로 리다이렉트
+          const redirectRoom = getPuzzleRedirectRoom(puzzleId, initialRoom)
+          router.push(`/game/${puzzleId}/${redirectRoom}`)
+          return
+        }
+        
+        setCurrentRoom(initialRoom)
+      }
     }
-  }, [initialRoom])
+  }, [initialRoom, puzzleId, router, currentRoom])
 
   // 분석 세션 시작
   useEffect(() => {
@@ -61,12 +96,12 @@ export function GameScreen({ initialRoom }: GameScreenProps) {
 
   // 방 변경 시 room 상태 업데이트
   useEffect(() => {
-    const newRoom = getRoom(currentRoom)
+    const newRoom = getPuzzleRoom(puzzleId, currentRoom)
     if (newRoom) {
       setRoom(newRoom)
       setImageLoaded(false) // 이미지 로드 상태 초기화
     }
-  }, [currentRoom])
+  }, [currentRoom, puzzleId])
 
   useEffect(() => {
     if (room?.backgroundImage) {
@@ -76,6 +111,9 @@ export function GameScreen({ initialRoom }: GameScreenProps) {
     }
   }, [room?.backgroundImage])
 
+  // 접근 제어 확인
+  const accessCheck = canAccessPuzzleRoom(puzzleId, currentRoom, inventory, visitedRooms, gameProgress)
+  
   if (!room) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
@@ -87,6 +125,54 @@ export function GameScreen({ initialRoom }: GameScreenProps) {
             className="mt-4 px-4 py-2 bg-blue-600 rounded hover:bg-blue-700"
           >
             입구로 돌아가기
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  // 접근 불가 시 표시
+  if (!accessCheck.canAccess) {
+    return (
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+        <div className="text-white text-center max-w-md mx-auto p-6">
+          <h1 className="text-2xl font-bold mb-4">🚫 접근 제한</h1>
+          <p className="text-gray-300 mb-4">{accessCheck.reason}</p>
+          
+          {accessCheck.missingItems && (
+            <div className="mb-4 p-3 bg-red-900/50 rounded border border-red-700">
+              <p className="text-red-300 text-sm">필요한 아이템:</p>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {accessCheck.missingItems.map(item => (
+                  <span key={item} className="px-2 py-1 bg-red-800 rounded text-xs">
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {accessCheck.missingRooms && (
+            <div className="mb-4 p-3 bg-yellow-900/50 rounded border border-yellow-700">
+              <p className="text-yellow-300 text-sm">먼저 방문해야 할 방:</p>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {accessCheck.missingRooms.map(room => (
+                  <span key={room} className="px-2 py-1 bg-yellow-800 rounded text-xs">
+                    {room}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          <button 
+            onClick={() => {
+              const redirectRoom = getPuzzleRedirectRoom(puzzleId, currentRoom)
+              router.push(`/game/${puzzleId}/${redirectRoom}`)
+            }}
+            className="mt-4 px-6 py-3 bg-blue-600 rounded hover:bg-blue-700 transition-colors"
+          >
+            적절한 방으로 이동
           </button>
         </div>
       </div>
@@ -124,18 +210,24 @@ export function GameScreen({ initialRoom }: GameScreenProps) {
     // 게임 재시작 처리 (escape 방에서만)
     if (choice.nextRoom === 'entrance' && currentRoom === 'escape') {
       // 게임 상태 초기화 (currentRoom 제외)
-      useGameStore.getState().resetGame()
+      puzzleStore.resetPuzzle()
       // entrance로 이동
       setCurrentRoom('entrance')
+      // URL 업데이트
+      router.push(`/game/${puzzleId}/entrance`)
       return
     }
     
     // 다음 방으로 이동
     setCurrentRoom(choice.nextRoom)
+    // URL 업데이트
+    router.push(`/game/${puzzleId}/${choice.nextRoom}`)
   }
 
   return (
-    <div className="game-screen min-h-screen bg-cover bg-center bg-no-repeat bg-fixed transition-all duration-500 pt-16"
+    <>
+      <GameExitWarning puzzleId={puzzleId} />
+      <div className="game-screen min-h-screen bg-cover bg-center bg-no-repeat bg-fixed transition-all duration-500 pt-16"
         style={{ 
           backgroundImage: imageLoaded ? `url(${room.backgroundImage})` : 'none',
           backgroundColor: imageLoaded ? 'transparent' : '#1a1a1a'
@@ -197,7 +289,7 @@ export function GameScreen({ initialRoom }: GameScreenProps) {
                       {choice.text}
                       {!hasRequiredItems && choice.requiredItems && (
                         <span className="text-xs text-red-400 ml-2">
-                          (필요: {choice.requiredItems.join(', ')})
+                          (필요: {choice.requiredItems.map(id => getItemName(id)).join(', ')})
                         </span>
                       )}
                     </Button>
@@ -215,7 +307,7 @@ export function GameScreen({ initialRoom }: GameScreenProps) {
                         className="px-2 sm:px-3 py-1 sm:py-2 bg-gray-700/80 rounded-full text-xs sm:text-sm text-white game-text border border-gray-600"
                         style={{ color: 'white' }}
                       >
-                        {item}
+                        {getItemName(item)}
                       </span>
                     ))}
                   </div>
@@ -234,6 +326,7 @@ export function GameScreen({ initialRoom }: GameScreenProps) {
           className="min-h-[90px]"
         />
       </div> */}
-    </div>
+      </div>
+    </>
   )
 } 

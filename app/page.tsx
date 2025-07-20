@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Metadata } from 'next'
 import { AdSenseAd } from '@/components/google-ads'
+import { getAllPuzzles } from '@/lib/puzzle-game-data'
 
 export const metadata: Metadata = {
   title: 'TEXT-ESCAPE - 텍스트 방탈출 게임',
@@ -21,36 +22,21 @@ export const metadata: Metadata = {
 }
 
 export default function Home() {
-  const puzzles = [
-    {
-      id: 'key-puzzle',
-      name: '🔑 열쇠 퍼즐',
-      description: '열쇠를 찾아 문을 열어보세요',
-      path: '/puzzle/key',
-      difficulty: '쉬움'
-    },
-    {
-      id: 'number-puzzle',
-      name: '🔢 숫자 퍼즐',
-      description: '숫자 패드의 비밀을 풀어보세요',
-      path: '/puzzle/number',
-      difficulty: '보통'
-    },
-    {
-      id: 'color-puzzle',
-      name: '🎨 색상 퍼즐',
-      description: '색상 순서를 맞춰보세요',
-      path: '/puzzle/color',
-      difficulty: '보통'
-    },
-    {
-      id: 'piece-puzzle',
-      name: '🧩 조각 퍼즐',
-      description: '퍼즐 조각을 모아 완성해보세요',
-      path: '/puzzle/piece',
-      difficulty: '어려움'
-    }
-  ]
+  const puzzles = getAllPuzzles()
+  const difficultyMap: Record<string, string> = {
+    'key': '쉬움',
+    'number': '보통',
+    'color': '보통',
+    'piece': '어려움',
+    'study': '어려움'
+  }
+  const emojiMap: Record<string, string> = {
+    'key': '🔑',
+    'number': '🔢',
+    'color': '🎨',
+    'piece': '🧩',
+    'study': '📚'
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black pt-20 px-4">
@@ -66,20 +52,34 @@ export default function Home() {
           </p>
         </div>
 
+        {/* 업데이트 중 안내 */}
+        <div className="bg-yellow-900/30 border border-yellow-600/50 rounded-lg p-4 mb-8">
+          <div className="flex items-center justify-center text-yellow-300">
+            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span className="font-medium">현재 새로운 퍼즐과 기능들이 업데이트 중입니다!</span>
+          </div>
+          <p className="text-yellow-200 text-center mt-2 text-sm">
+            서재 탈출 퍼즐이 새로 추가되었고, 더 많은 퍼즐이 준비 중입니다.
+          </p>
+        </div>
+
         {/* 퍼즐 선택 카드 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
           {puzzles.map((puzzle) => (
-            <Link key={puzzle.id} href={puzzle.path}>
+            <Link key={puzzle.id} href={`/game/${puzzle.id}`}>
               <Card className="bg-gray-800/50 border-gray-700 hover:bg-gray-700/50 transition-all duration-300 hover:scale-105 cursor-pointer">
                 <CardHeader>
-                  <CardTitle className="text-2xl text-white">{puzzle.name}</CardTitle>
+                  <CardTitle className="text-2xl text-white">{emojiMap[puzzle.id]} {puzzle.name}</CardTitle>
                   <CardDescription className="text-gray-300">
                     {puzzle.description}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-400">난이도: {puzzle.difficulty}</span>
+                    <span className="text-sm text-gray-400">난이도: {difficultyMap[puzzle.id]}</span>
                     <span className="text-blue-400 hover:text-blue-300 transition-colors">
                       시작하기 →
                     </span>
