@@ -12,10 +12,10 @@ export function Footer() {
         <div className="border-t border-gray-800 pt-4">
           <p className="text-gray-300">
             Contact: <a 
-              href="mailto:textescape@gmail.com" 
+              href="mailto:textescape42@gmail.com" 
               className="text-blue-400 hover:text-blue-300 transition-colors"
             >
-              textescape@gmail.com
+              textescape42@gmail.com
             </a>
           </p>
         </div>
