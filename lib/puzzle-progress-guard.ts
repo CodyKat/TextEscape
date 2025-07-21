@@ -123,6 +123,13 @@ export const puzzleRoomAccessRules: PuzzleRoomAccess[] = [
     requiredItems: [ITEM_IDS.PUZZLE_PIECE_1, ITEM_IDS.PUZZLE_PIECE_2, ITEM_IDS.PUZZLE_PIECE_3, ITEM_IDS.PUZZLE_PIECE_4],
     requiredRooms: ['puzzle_assembly'],
     description: '퍼즐을 완성한 후 접근 가능'
+  },
+  
+  // 서재 퍼즐
+  {
+    puzzleId: 'study',
+    roomId: 'study_room',
+    description: '게임 시작점'
   }
 ]
 
@@ -202,7 +209,8 @@ export function getPuzzleStartRoom(puzzleId: string): string {
     'key': 'entrance',
     'number': 'start',
     'color': 'beginning',
-    'piece': 'entrance'
+    'piece': 'entrance',
+    'study': 'study_room'
   }
   
   return startRooms[puzzleId] || 'entrance'

@@ -1,7 +1,7 @@
 'use client'
 
 import { usePuzzleStore } from '@/lib/puzzle-store'
-import { getRoom } from '@/lib/i18n/game-data'
+import { getPuzzleRoom } from '@/lib/puzzle-game-data'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useEffect, useState } from 'react'
@@ -23,7 +23,7 @@ interface GameScreenProps {
 export function GameScreen({ puzzleId = 'key', initialRoom }: GameScreenProps) {
   const puzzleStore = usePuzzleStore(puzzleId)
   const { currentRoom, inventory, visitedRooms, gameProgress, setCurrentRoom, addToInventory, removeFromInventory } = puzzleStore
-  const [room, setRoom] = useState(getRoom(currentRoom))
+  const [room, setRoom] = useState(getPuzzleRoom(puzzleId, currentRoom))
   const [imageLoaded, setImageLoaded] = useState(false)
   const router = useRouter()
   const lang = getLanguage()
@@ -79,7 +79,8 @@ export function GameScreen({ puzzleId = 'key', initialRoom }: GameScreenProps) {
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       // 게임이 진행 중일 때만 경고 표시 (새로고침, 브라우저 닫기 등)
-      if (currentRoom && currentRoom !== 'entrance') {
+      const startRoom = getPuzzleStartRoom(puzzleId)
+      if (currentRoom && currentRoom !== startRoom) {
         e.preventDefault()
         const warningMessage = getTranslation(lang, 'game.resetConfirm')
         e.returnValue = warningMessage
@@ -93,18 +94,18 @@ export function GameScreen({ puzzleId = 'key', initialRoom }: GameScreenProps) {
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload)
     }
-  }, [currentRoom])
+  }, [currentRoom, puzzleId])
 
 
 
   // 방 변경 시 room 상태 업데이트
   useEffect(() => {
-    const newRoom = getRoom(currentRoom)
+    const newRoom = getPuzzleRoom(puzzleId, currentRoom)
     if (newRoom) {
       setRoom(newRoom)
       setImageLoaded(false) // 이미지 로드 상태 초기화
     }
-  }, [currentRoom])
+  }, [currentRoom, puzzleId])
 
   useEffect(() => {
     if (room?.backgroundImage) {
@@ -124,7 +125,11 @@ export function GameScreen({ puzzleId = 'key', initialRoom }: GameScreenProps) {
           <h1 className="text-2xl font-bold mb-4">{getTranslation(lang, 'game.roomNotFound')}</h1>
           <p className="text-gray-400">현재 방: {currentRoom}</p>
           <button 
-            onClick={() => setCurrentRoom('entrance')}
+            onClick={() => {
+              const startRoom = getPuzzleStartRoom(puzzleId)
+              setCurrentRoom(startRoom)
+              router.push(`/game/${puzzleId}/${startRoom}`)
+            }}
             className="mt-4 px-4 py-2 bg-blue-600 rounded hover:bg-blue-700"
           >
             {getTranslation(lang, 'game.goBackToEntrance')}
@@ -214,10 +219,11 @@ export function GameScreen({ puzzleId = 'key', initialRoom }: GameScreenProps) {
     if (choice.nextRoom === 'entrance' && currentRoom === 'escape') {
       // 게임 상태 초기화 (currentRoom 제외)
       puzzleStore.resetPuzzle()
-      // entrance로 이동
-      setCurrentRoom('entrance')
+      // 각 퍼즐의 시작 방으로 이동
+      const startRoom = getPuzzleStartRoom(puzzleId)
+      setCurrentRoom(startRoom)
       // URL 업데이트
-      router.push(`/game/${puzzleId}/entrance`)
+      router.push(`/game/${puzzleId}/${startRoom}`)
       return
     }
     

@@ -24,7 +24,6 @@ export async function generateStaticParams() {
     color: ['beginning', 'gem_collection', 'color_order', 'escape'],
     piece: ['entrance', 'piece_search', 'puzzle_assembly', 'escape'],
     study: [
-      'entrance',
       'study_room',
       'bookshelf_detail',
       'secret_compartment_bookshelf',
