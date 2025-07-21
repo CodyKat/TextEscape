@@ -15,11 +15,17 @@ export interface Translations {
     seoKeywords: string
     languageSelection: string
     currentlySelected: string
+    learnMore: string
   }
   
   home: {
     welcome: string
     subtitle: string
+    aboutEscapeRoom: {
+      title: string
+      description: string
+      learnMore: string
+    }
     updateNotice: string
     updateDescription: string
     difficulty: string
@@ -536,6 +542,94 @@ export interface Translations {
     gameSelection: string
     progressLossWarning: string
   }
+  about: {
+    title: string
+    subtitle: string
+    whatIsEscapeRoom: {
+      title: string
+      description: string
+      evolution: string
+    }
+    textEscapeRoom: {
+      title: string
+      description: string
+      concept: string
+    }
+    keyFeatures: {
+      title: string
+      storytelling: {
+        title: string
+        description: string
+      }
+      choices: {
+        title: string
+        description: string
+      }
+      puzzles: {
+        title: string
+        description: string
+      }
+      inventory: {
+        title: string
+        description: string
+      }
+      branching: {
+        title: string
+        description: string
+      }
+      genres: {
+        title: string
+        description: string
+      }
+    }
+    advantages: {
+      title: string
+      imagination: {
+        title: string
+        description: string
+      }
+      development: {
+        title: string
+        description: string
+      }
+      accessibility: {
+        title: string
+        description: string
+      }
+      story: {
+        title: string
+        description: string
+      }
+      versatility: {
+        title: string
+        description: string
+      }
+    }
+    gameStructure: {
+      title: string
+      basic: {
+        title: string
+        gameScreen: string
+        choices: string
+        inventory: string
+        memo: string
+      }
+      progression: {
+        title: string
+        situation: string
+        actions: string
+        conditions: string
+      }
+      puzzleTypes: {
+        title: string
+        cipher: string
+        combination: string
+        matching: string
+        clues: string
+        sequence: string
+      }
+    }
+  }
 }
 
 export const translations: Record<Language, Translations> = {
@@ -553,11 +647,17 @@ export const translations: Record<Language, Translations> = {
       seoDescription: '텍스트 기반 방탈출 게임을 즐겨보세요! 다양한 퍼즐과 선택지로 구성된 몰입감 있는 어드벤처 게임입니다.',
       seoKeywords: '방탈출, 텍스트 게임, 퍼즐, 어드벤처, 한국어 게임, 온라인 게임',
       languageSelection: '언어 선택',
-      currentlySelected: '현재 선택됨'
+      currentlySelected: '현재 선택됨',
+      learnMore: '자세히 보기'
     },
     home: {
       welcome: 'TEXT-ESCAPE',
       subtitle: '텍스트 기반 방탈출 게임의 세계에 오신 것을 환영합니다. 다양한 퍼즐과 도전을 통해 탈출의 재미를 경험해보세요!',
+      aboutEscapeRoom: {
+        title: '방탈출이란?',
+        description: '텍스트 기반 방탈출 게임의 개념과 서비스에 대해 자세히 알아보세요.',
+        learnMore: '자세히 알아보기'
+      },
       updateNotice: '현재 새로운 퍼즐과 기능들이 업데이트 중입니다!',
       updateDescription: '서재 탈출 퍼즐이 새로 추가되었고, 더 많은 퍼즐이 준비 중입니다.',
       difficulty: '난이도',
@@ -1068,6 +1168,94 @@ export const translations: Record<Language, Translations> = {
     header: {
       gameSelection: '게임 선택',
       progressLossWarning: '게임 진행 정보가 손실됩니다. 정말 홈으로 이동하시겠습니까?'
+    },
+    about: {
+      title: '방탈출이란?',
+      subtitle: '텍스트 기반 방탈출 게임의 개념과 특징에 대해 자세히 알아보세요',
+      whatIsEscapeRoom: {
+        title: '방탈출이란?',
+        description: '방탈출은 참가자들이 특정 공간에 갇힌 상황에서 주어진 단서와 퍼즐을 해결하여 제한 시간 내에 탈출하는 게임입니다.',
+        evolution: '원래는 오프라인 공간에서 실제로 방에 갇혀 탈출하는 형태로 시작되었지만, 이제는 보드게임, 디지털 게임, 텍스트 기반 게임 등 다양한 형태로 발전했습니다.'
+      },
+      textEscapeRoom: {
+        title: '텍스트 방탈출 게임의 컨셉',
+        description: '텍스트 방탈출은 방탈출 게임의 한 형태로, 모든 상황과 단서가 텍스트로 제공되는 게임입니다.',
+        concept: '플레이어는 글로 묘사된 환경을 상상하며 퍼즐을 풀고 탈출해야 합니다.'
+      },
+      keyFeatures: {
+        title: '주요 특징',
+        storytelling: {
+          title: '텍스트 기반 스토리텔링',
+          description: '모든 상황과 공간이 텍스트로 묘사됨'
+        },
+        choices: {
+          title: '선택지 기반 진행',
+          description: '플레이어는 제시된 선택지 중에서 행동을 선택'
+        },
+        puzzles: {
+          title: '퍼즐 해결',
+          description: '암호 해독, 아이템 조합, 단서 수집 등 다양한 퍼즐 요소'
+        },
+        inventory: {
+          title: '아이템 수집과 활용',
+          description: '게임 내에서 획득한 아이템을 적절한 상황에 사용'
+        },
+        branching: {
+          title: '분기 스토리',
+          description: '플레이어의 선택에 따라 다른 결과로 이어지는 구조'
+        },
+        genres: {
+          title: '다양한 장르 적용',
+          description: 'SF, 호러, 판타지 등 다양한 장르와 결합 가능'
+        }
+      },
+      advantages: {
+        title: '텍스트 방탈출의 장점',
+        imagination: {
+          title: '상상력 자극',
+          description: '텍스트만으로 상황을 묘사하기 때문에 플레이어의 상상력을 자극'
+        },
+        development: {
+          title: '개발 용이성',
+          description: '그래픽이 필요 없어 개발 비용과 시간이 적게 소요'
+        },
+        accessibility: {
+          title: '접근성',
+          description: '고사양 기기가 필요 없이 대부분의 디바이스에서 구동 가능'
+        },
+        story: {
+          title: '스토리 중심',
+          description: '텍스트 기반이기 때문에 깊이 있는 스토리텔링에 집중 가능'
+        },
+        versatility: {
+          title: '다양한 장르 적용',
+          description: 'SF, 호러, 판타지 등 다양한 장르와 결합 가능'
+        }
+      },
+      gameStructure: {
+        title: '텍스트 방탈출 게임의 구조',
+        basic: {
+          title: '1. 기본 게임 화면 구성',
+          gameScreen: '게임 화면 (상황 묘사 텍스트)',
+          choices: '선택지 목록',
+          inventory: '인벤토리 창',
+          memo: '메모장 (선택적)'
+        },
+        progression: {
+          title: '2. 게임 진행 방식',
+          situation: '상황은 텍스트로 주어짐',
+          actions: '행동은 선택지를 통해 수행',
+          conditions: '선택지는 진행 상황, 아이템 유무에 따라 다르게 제공'
+        },
+        puzzleTypes: {
+          title: '3. 퍼즐 유형',
+          cipher: '암호 해독 퍼즐',
+          combination: '아이템 조합 퍼즐',
+          matching: '숫자/색상 맞추기',
+          clues: '단서 수집 및 연결',
+          sequence: '시퀀스 퍼즐 (특정 순서대로 행동)'
+        }
+      }
     }
   },
   ja: {
@@ -1084,11 +1272,17 @@ export const translations: Record<Language, Translations> = {
       seoDescription: 'テキストベースの脱出ゲームをお楽しみください！様々なパズルと選択肢で構成された没入感のあるアドベンチャーゲームです。',
       seoKeywords: '脱出ゲーム, テキストゲーム, パズル, アドベンチャー, 日本語ゲーム, オンラインゲーム',
       languageSelection: '言語選択',
-      currentlySelected: '現在選択中'
+      currentlySelected: '現在選択中',
+      learnMore: '詳しく見る'
     },
     home: {
       welcome: 'TEXT-ESCAPE',
       subtitle: 'テキストベースの脱出ゲームの世界へようこそ。様々なパズルと挑戦を通じて脱出の楽しさを体験してください！',
+      aboutEscapeRoom: {
+        title: '脱出ゲームとは？',
+        description: 'テキストベースの脱出ゲームのコンセプトとサービスについて詳しく学びましょう。',
+        learnMore: '詳しく見る'
+      },
       updateNotice: '現在、新しいパズルと機能がアップデート中です！',
       updateDescription: '書斎脱出パズルが新しく追加され、さらに多くのパズルが準備中です。',
       difficulty: '難易度',
@@ -1599,6 +1793,94 @@ export const translations: Record<Language, Translations> = {
     header: {
       gameSelection: 'ゲーム選択',
       progressLossWarning: 'ゲーム進行情報が失われます。本当にホームに移動しますか？'
+    },
+    about: {
+      title: '脱出ゲームとは？',
+      subtitle: 'テキストベースの脱出ゲームのコンセプトと特徴について詳しく学びましょう',
+      whatIsEscapeRoom: {
+        title: '脱出ゲームとは？',
+        description: '脱出ゲームは参加者が特定の空間に閉じ込められた状況で、与えられた手がかりとパズルを解決して制限時間内に脱出するゲームです。',
+        evolution: '元々はオフライン空間で実際に部屋に閉じ込められて脱出する形で始まりましたが、今ではボードゲーム、デジタルゲーム、テキストベースのゲームなど様々な形で発展しました。'
+      },
+      textEscapeRoom: {
+        title: 'テキスト脱出ゲームのコンセプト',
+        description: 'テキスト脱出ゲームは脱出ゲームの一形態で、すべての状況と手がかりがテキストで提供されるゲームです。',
+        concept: 'プレイヤーは文章で描写された環境を想像しながらパズルを解いて脱出しなければなりません。'
+      },
+      keyFeatures: {
+        title: '主な特徴',
+        storytelling: {
+          title: 'テキストベースのストーリーテリング',
+          description: 'すべての状況と空間がテキストで描写される'
+        },
+        choices: {
+          title: '選択肢ベースの進行',
+          description: 'プレイヤーは提示された選択肢の中から行動を選択'
+        },
+        puzzles: {
+          title: 'パズル解決',
+          description: '暗号解読、アイテム組み合わせ、手がかり収集など様々なパズル要素'
+        },
+        inventory: {
+          title: 'アイテム収集と活用',
+          description: 'ゲーム内で獲得したアイテムを適切な状況で使用'
+        },
+        branching: {
+          title: '分岐ストーリー',
+          description: 'プレイヤーの選択によって異なる結果につながる構造'
+        },
+        genres: {
+          title: '様々なジャンル適用',
+          description: 'SF、ホラー、ファンタジーなど様々なジャンルと組み合わせ可能'
+        }
+      },
+      advantages: {
+        title: 'テキスト脱出ゲームの利点',
+        imagination: {
+          title: '想像力刺激',
+          description: 'テキストだけで状況を描写するためプレイヤーの想像力を刺激'
+        },
+        development: {
+          title: '開発の容易さ',
+          description: 'グラフィックが不要で開発コストと時間が少なくて済む'
+        },
+        accessibility: {
+          title: 'アクセシビリティ',
+          description: '高性能機器が不要でほとんどのデバイスで動作可能'
+        },
+        story: {
+          title: 'ストーリー中心',
+          description: 'テキストベースのため深いストーリーテリングに集中可能'
+        },
+        versatility: {
+          title: '様々なジャンル適用',
+          description: 'SF、ホラー、ファンタジーなど様々なジャンルと組み合わせ可能'
+        }
+      },
+      gameStructure: {
+        title: 'テキスト脱出ゲームの構造',
+        basic: {
+          title: '1. 基本ゲーム画面構成',
+          gameScreen: 'ゲーム画面（状況描写テキスト）',
+          choices: '選択肢リスト',
+          inventory: 'インベントリウィンドウ',
+          memo: 'メモ帳（オプション）'
+        },
+        progression: {
+          title: '2. ゲーム進行方式',
+          situation: '状況はテキストで与えられる',
+          actions: '行動は選択肢を通じて実行',
+          conditions: '選択肢は進行状況、アイテムの有無によって異なる'
+        },
+        puzzleTypes: {
+          title: '3. パズルタイプ',
+          cipher: '暗号解読パズル',
+          combination: 'アイテム組み合わせパズル',
+          matching: '数字/色合わせ',
+          clues: '手がかり収集と接続',
+          sequence: 'シーケンスパズル（特定の順序で行動）'
+        }
+      }
     }
   },
   en: {
@@ -1615,11 +1897,17 @@ export const translations: Record<Language, Translations> = {
       seoDescription: 'Enjoy text-based escape room games! An immersive adventure game with various puzzles and choices.',
       seoKeywords: 'escape room, text game, puzzle, adventure, online game, browser game',
       languageSelection: 'Language Selection',
-      currentlySelected: 'Currently Selected'
+      currentlySelected: 'Currently Selected',
+      learnMore: 'Learn More'
     },
     home: {
       welcome: 'TEXT-ESCAPE',
       subtitle: 'Welcome to the world of text-based escape room games. Experience the thrill of escape through various puzzles and challenges!',
+      aboutEscapeRoom: {
+        title: 'What is Escape Room?',
+        description: 'Learn more about the concept and service of text-based escape room games.',
+        learnMore: 'Learn More'
+      },
       updateNotice: 'New puzzles and features are currently being updated!',
       updateDescription: 'Study Room Escape puzzle has been newly added, and more puzzles are in preparation.',
       difficulty: 'Difficulty',
@@ -2130,6 +2418,94 @@ export const translations: Record<Language, Translations> = {
     header: {
       gameSelection: 'Game Selection',
       progressLossWarning: 'Game progress will be lost. Are you sure you want to go to home?'
+    },
+    about: {
+      title: 'What is Escape Room?',
+      subtitle: 'Learn more about the concept and features of text-based escape room games',
+      whatIsEscapeRoom: {
+        title: 'What is Escape Room?',
+        description: 'Escape room is a game where participants solve given clues and puzzles to escape within a time limit while trapped in a specific space.',
+        evolution: 'Originally started as a form where people were actually trapped in rooms in offline spaces, it has now evolved into various forms such as board games, digital games, and text-based games.'
+      },
+      textEscapeRoom: {
+        title: 'Text Escape Room Game Concept',
+        description: 'Text escape room is a form of escape room game where all situations and clues are provided through text.',
+        concept: 'Players must imagine the environment described in text and solve puzzles to escape.'
+      },
+      keyFeatures: {
+        title: 'Key Features',
+        storytelling: {
+          title: 'Text-based Storytelling',
+          description: 'All situations and spaces are described through text'
+        },
+        choices: {
+          title: 'Choice-based Progression',
+          description: 'Players choose actions from presented choices'
+        },
+        puzzles: {
+          title: 'Puzzle Solving',
+          description: 'Various puzzle elements such as cipher decoding, item combination, clue collection'
+        },
+        inventory: {
+          title: 'Item Collection and Usage',
+          description: 'Use items acquired in the game in appropriate situations'
+        },
+        branching: {
+          title: 'Branching Story',
+          description: 'Structure where player choices lead to different outcomes'
+        },
+        genres: {
+          title: 'Various Genre Applications',
+          description: 'Can be combined with various genres such as SF, horror, fantasy'
+        }
+      },
+      advantages: {
+        title: 'Advantages of Text Escape Room',
+        imagination: {
+          title: 'Imagination Stimulation',
+          description: 'Stimulates player imagination by describing situations through text only'
+        },
+        development: {
+          title: 'Easy Development',
+          description: 'Low development cost and time as graphics are not required'
+        },
+        accessibility: {
+          title: 'Accessibility',
+          description: 'Can run on most devices without requiring high-performance equipment'
+        },
+        story: {
+          title: 'Story-focused',
+          description: 'Can focus on deep storytelling as it is text-based'
+        },
+        versatility: {
+          title: 'Various Genre Applications',
+          description: 'Can be combined with various genres such as SF, horror, fantasy'
+        }
+      },
+      gameStructure: {
+        title: 'Text Escape Room Game Structure',
+        basic: {
+          title: '1. Basic Game Screen Composition',
+          gameScreen: 'Game screen (situation description text)',
+          choices: 'Choice list',
+          inventory: 'Inventory window',
+          memo: 'Memo pad (optional)'
+        },
+        progression: {
+          title: '2. Game Progression Method',
+          situation: 'Situations are given through text',
+          actions: 'Actions are performed through choices',
+          conditions: 'Choices are provided differently based on progress and item availability'
+        },
+        puzzleTypes: {
+          title: '3. Puzzle Types',
+          cipher: 'Cipher decoding puzzles',
+          combination: 'Item combination puzzles',
+          matching: 'Number/color matching',
+          clues: 'Clue collection and connection',
+          sequence: 'Sequence puzzles (actions in specific order)'
+        }
+      }
     }
   }
 }

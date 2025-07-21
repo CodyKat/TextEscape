@@ -83,6 +83,33 @@ export default function Home() {
           </p>
         </div>
 
+        {/* 방탈출 서비스 소개 카드 */}
+        <div className="mb-8">
+          <Link href="/about">
+            <Card className="bg-gradient-to-r from-blue-900/50 to-purple-900/50 border-blue-600/50 hover:from-blue-800/50 hover:to-purple-800/50 transition-all duration-300 hover:scale-105 cursor-pointer">
+              <CardHeader>
+                <CardTitle className="text-2xl text-white flex items-center gap-3">
+                  <span className="text-3xl">🚪</span>
+                  {getTranslation(lang, 'home.aboutEscapeRoom.title')}
+                </CardTitle>
+                <CardDescription className="text-gray-300 text-lg">
+                  {getTranslation(lang, 'home.aboutEscapeRoom.description')}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2 text-blue-300">
+                    <span className="text-sm">{getTranslation(lang, 'home.aboutEscapeRoom.learnMore')}</span>
+                  </div>
+                  <span className="text-blue-400 hover:text-blue-300 transition-colors">
+                    {getTranslation(lang, 'common.learnMore')} →
+                  </span>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+        </div>
+
         {/* 업데이트 중 안내 */}
         <div className="bg-yellow-900/30 border border-yellow-600/50 rounded-lg p-4 mb-8">
           <div className="flex items-center justify-center text-yellow-300">
