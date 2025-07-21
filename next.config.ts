@@ -5,12 +5,12 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 
 const nextConfig: NextConfig = {
-  // 정적 내보내기 설정
-  output: 'export',
+  // 정적 내보내기 설정 (개발 시에는 비활성화)
+  // output: 'export',
   
-  // 이미지 최적화 비활성화 (정적 내보내기에서는 지원하지 않음)
+  // 이미지 최적화 설정
   images: {
-    unoptimized: true,
+    unoptimized: process.env.NODE_ENV === 'production',
   },
   
   // 트레일링 슬래시 제거

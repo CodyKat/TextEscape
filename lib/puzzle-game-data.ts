@@ -1,4 +1,5 @@
 import { ITEM_IDS } from './item-constants'
+import { getTranslation } from './i18n/translations'
 
 export interface PuzzleChoice {
   id: string
@@ -26,168 +27,183 @@ export interface PuzzleData {
   startRoom: string
 }
 
-// 열쇠 퍼즐 데이터
-export const keyPuzzleData: PuzzleData = {
-  id: 'key',
-  name: '열쇠 퍼즐',
-  description: '열쇠를 찾아 문을 열어보세요',
-  startRoom: 'entrance',
-  rooms: {
-    entrance: {
-      id: 'entrance',
-      title: '어두운 방',
-      description: '당신은 어두운 방에 있습니다. 앞에는 오래된 문이 있고, 오른쪽에는 책장이 보입니다.',
-      backgroundImage: '/images/key/entrance.jpg',
-      choices: [
-        {
-          id: 'go_to_door',
-          text: '문 앞으로 가기',
-          nextRoom: 'door'
-        },
-        {
-          id: 'go_to_bookshelf',
-          text: '책장 조사하기',
-          nextRoom: 'bookshelf'
-        }
-      ]
-    },
-    door: {
-      id: 'door',
-      title: '문 앞',
-      description: '오래된 나무 문입니다. 열쇠 구멍이 보입니다.',
-      backgroundImage: '/images/key/door.jpg',
-      choices: [
-        {
-          id: 'go_back',
-          text: '돌아가기',
-          nextRoom: 'entrance'
-        },
-        {
-          id: 'use_key',
-          text: '열쇠로 문 열기',
-          nextRoom: 'escape',
-          requiredItems: [ITEM_IDS.KEY]
-        }
-      ]
-    },
-    bookshelf: {
-      id: 'bookshelf',
-      title: '책장',
-      description: '오래된 책들이 꽂혀있는 책장입니다. 한 책이 튀어나와 있습니다.',
-      backgroundImage: '/images/key/bookshelf.jpg',
-      choices: [
-        {
-          id: 'go_back',
-          text: '돌아가기',
-          nextRoom: 'entrance'
-        },
-        {
-          id: 'examine_book',
-          text: '튀어나온 책 자세히 보기',
-          nextRoom: 'bookshelf_detail'
-        }
-      ]
-    },
-    bookshelf_detail: {
-      id: 'bookshelf_detail',
-      title: '책장 상세',
-      description: '책을 꺼내보니 열쇠가 숨겨져 있었습니다!',
-      backgroundImage: '/images/key/bookshelf_detail.jpg',
-      choices: [
-        {
-          id: 'take_key',
-          text: '열쇠 가져가기',
-          nextRoom: 'bookshelf',
-          addToInventory: [ITEM_IDS.KEY]
-        }
-      ]
-    },
-    escape: {
-      id: 'escape',
-      title: '탈출!',
-      description: '문을 열고 밖으로 나왔습니다! 축하합니다!',
-      backgroundImage: '/images/key/escape.jpg',
-      choices: [
-        {
-          id: 'restart',
-          text: '다시 시작하기',
-          nextRoom: 'entrance'
-        }
-      ]
+// 다국화된 퍼즐 데이터 생성 함수
+export const getKeyPuzzleData = (lang: 'ko' | 'ja' | 'en'): PuzzleData => {
+  const t = (key: string) => getTranslation(lang, key)
+  
+  return {
+    id: 'key',
+    name: t('puzzles.key.name'),
+    description: t('puzzles.key.description'),
+    startRoom: 'entrance',
+    rooms: {
+      entrance: {
+        id: 'entrance',
+        title: t('game.entrance.title'),
+        description: t('game.entrance.description'),
+        backgroundImage: '/images/key/entrance.jpg',
+        choices: [
+          {
+            id: 'go_to_door',
+            text: t('game.entrance.choices.go_to_door'),
+            nextRoom: 'door'
+          },
+          {
+            id: 'go_to_bookshelf',
+            text: t('game.entrance.choices.go_to_bookshelf'),
+            nextRoom: 'bookshelf'
+          }
+        ]
+      },
+      door: {
+        id: 'door',
+        title: t('game.door.title'),
+        description: t('game.door.description'),
+        backgroundImage: '/images/key/door.jpg',
+        choices: [
+          {
+            id: 'go_back',
+            text: t('game.door.choices.go_back'),
+            nextRoom: 'entrance'
+          },
+          {
+            id: 'use_key',
+            text: t('game.door.choices.useKey'),
+            nextRoom: 'escape',
+            requiredItems: [ITEM_IDS.KEY]
+          }
+        ]
+      },
+      bookshelf: {
+        id: 'bookshelf',
+        title: t('game.bookshelf.title'),
+        description: t('game.bookshelf.description'),
+        backgroundImage: '/images/key/bookshelf.jpg',
+        choices: [
+          {
+            id: 'go_back',
+            text: t('game.bookshelf.choices.go_back'),
+            nextRoom: 'entrance'
+          },
+          {
+            id: 'examine_book',
+            text: t('game.bookshelf.choices.examine_book'),
+            nextRoom: 'bookshelf_detail'
+          }
+        ]
+      },
+      bookshelf_detail: {
+        id: 'bookshelf_detail',
+        title: t('game.bookshelfDetail.title'),
+        description: t('game.bookshelfDetail.description'),
+        backgroundImage: '/images/key/bookshelf_detail.jpg',
+        choices: [
+          {
+            id: 'take_key',
+            text: t('game.bookshelfDetail.choices.takeKey'),
+            nextRoom: 'bookshelf',
+            addToInventory: [ITEM_IDS.KEY]
+          },
+          {
+            id: 'go_back',
+            text: t('game.bookshelfDetail.choices.go_back'),
+            nextRoom: 'bookshelf'
+          }
+        ]
+      },
+      escape: {
+        id: 'escape',
+        title: t('game.escape.title'),
+        description: t('game.escape.description'),
+        backgroundImage: '/images/key/escape.jpg',
+        choices: [
+          {
+            id: 'restart',
+            text: t('game.escape.choices.restart'),
+            nextRoom: 'entrance'
+          }
+        ]
+      }
     }
   }
 }
 
-// 숫자 퍼즐 데이터
-export const numberPuzzleData: PuzzleData = {
-  id: 'number',
-  name: '숫자 퍼즐',
-  description: '숫자 패드의 비밀을 풀어보세요',
-  startRoom: 'start',
-  rooms: {
-    start: {
-      id: 'start',
-      title: '숫자 방',
-      description: '벽에 숫자 패드가 있는 방입니다. 계산기가 놓여있습니다.',
-      backgroundImage: '/images/number/start.jpg',
-      choices: [
-        {
-          id: 'use_calculator',
-          text: '계산기 사용하기',
-          nextRoom: 'calculator'
-        }
-      ]
-    },
-    calculator: {
-      id: 'calculator',
-      title: '계산기',
-      description: '계산기 뒤에 코드가 적힌 종이가 숨겨져 있습니다.',
-      backgroundImage: '/images/number/calculator.jpg',
-      choices: [
-        {
-          id: 'go_back',
-          text: '돌아가기',
-          nextRoom: 'start'
-        },
-        {
-          id: 'take_code',
-          text: '코드 종이 가져가기',
-          nextRoom: 'code_input',
-          addToInventory: [ITEM_IDS.CODE_PAPER]
-        }
-      ]
-    },
-    code_input: {
-      id: 'code_input',
-      title: '코드 입력',
-      description: '숫자 패드가 있습니다. 코드 종이에 적힌 숫자를 입력하세요.',
-      backgroundImage: '/images/number/code_input.jpg',
-      choices: [
-        {
-          id: 'go_back',
-          text: '돌아가기',
-          nextRoom: 'calculator'
-        },
-        {
-          id: 'enter_code',
-          text: '코드 입력하기',
-          nextRoom: 'escape',
-          requiredItems: [ITEM_IDS.CODE_PAPER]
-        }
-      ]
-    },
-    escape: {
-      id: 'escape',
-      title: '탈출!',
-      description: '코드를 입력하니 문이 열렸습니다! 축하합니다!',
-      backgroundImage: '/images/number/escape.jpg',
-      choices: [
-        {
-          id: 'restart',
-          text: '다시 시작하기',
-          nextRoom: 'start'
-        }
-      ]
+
+
+// 숫자 퍼즐 데이터 생성 함수
+export const getNumberPuzzleData = (lang: 'ko' | 'ja' | 'en'): PuzzleData => {
+  const t = (key: string) => getTranslation(lang, key)
+  
+  return {
+    id: 'number',
+    name: t('puzzles.number.name'),
+    description: t('puzzles.number.description'),
+    startRoom: 'start',
+    rooms: {
+      start: {
+        id: 'start',
+        title: t('game.start.title'),
+        description: t('game.start.description'),
+        backgroundImage: '/images/number/start.jpg',
+        choices: [
+          {
+            id: 'use_calculator',
+            text: t('game.start.choices.use_calculator'),
+            nextRoom: 'calculator'
+          }
+        ]
+      },
+      calculator: {
+        id: 'calculator',
+        title: t('game.calculator.title'),
+        description: t('game.calculator.description'),
+        backgroundImage: '/images/number/calculator.jpg',
+        choices: [
+          {
+            id: 'go_back',
+            text: t('game.common.go_back'),
+            nextRoom: 'start'
+          },
+          {
+            id: 'take_code',
+            text: t('game.calculator.choices.takeCode'),
+            nextRoom: 'code_input',
+            addToInventory: [ITEM_IDS.CODE_PAPER]
+          }
+        ]
+      },
+      code_input: {
+        id: 'code_input',
+        title: t('game.codeInput.title'),
+        description: t('game.codeInput.description'),
+        backgroundImage: '/images/number/code_input.jpg',
+        choices: [
+          {
+            id: 'go_back',
+            text: t('game.common.back'),
+            nextRoom: 'calculator'
+          },
+          {
+            id: 'enter_code',
+            text: t('game.codeInput.choices.enterCode'),
+            nextRoom: 'escape',
+            requiredItems: [ITEM_IDS.CODE_PAPER]
+          }
+        ]
+      },
+      escape: {
+        id: 'escape',
+        title: t('game.escape.title'),
+        description: t('game.escape.description'),
+        backgroundImage: '/images/number/escape.jpg',
+        choices: [
+          {
+            id: 'restart',
+            text: t('game.escape.choices.restart'),
+            nextRoom: 'start'
+          }
+        ]
+      }
     }
   }
 }
@@ -841,15 +857,27 @@ export const studyPuzzleData: PuzzleData = {
 
 // 모든 퍼즐 데이터
 export const allPuzzleData: Record<string, PuzzleData> = {
-  key: keyPuzzleData,
-  number: numberPuzzleData,
+  key: getKeyPuzzleData('ko'), // 기본값으로 한국어 사용
+  number: getNumberPuzzleData('ko'), // 기본값으로 한국어 사용
   color: colorPuzzleData,
   piece: piecePuzzleData,
   study: studyPuzzleData
 }
 
 // 퍼즐별 방 데이터 가져오기
-export function getPuzzleRoom(puzzleId: string, roomId: string): PuzzleRoom | null {
+export function getPuzzleRoom(puzzleId: string, roomId: string, lang: 'ko' | 'ja' | 'en' = 'ko'): PuzzleRoom | null {
+  if (puzzleId === 'key') {
+    const puzzleData = getKeyPuzzleData(lang)
+    const room = puzzleData.rooms[roomId] || null
+    return room
+  }
+  
+  if (puzzleId === 'number') {
+    const puzzleData = getNumberPuzzleData(lang)
+    const room = puzzleData.rooms[roomId] || null
+    return room
+  }
+  
   const puzzleData = allPuzzleData[puzzleId]
   if (!puzzleData) return null
   

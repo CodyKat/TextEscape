@@ -2,6 +2,7 @@ import { GameScreen } from '@/components/game-screen'
 import { getPuzzleRoom } from '@/lib/puzzle-game-data'
 import { Metadata } from 'next'
 import { generatePuzzleMetadata } from '@/app/generateMetadata'
+import RoomNotFoundClient from './room-not-found-client'
 
 interface PuzzleRoomPageProps {
   params: Promise<{
@@ -66,17 +67,7 @@ export default async function PuzzleRoomPage({ params }: PuzzleRoomPageProps) {
   const room = getPuzzleRoom(puzzleId, roomId)
   
   if (!room) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">방을 찾을 수 없습니다</h1>
-          <p className="text-gray-400 mb-4">퍼즐: {puzzleId}, 방: {roomId}</p>
-          <a href="/" className="text-blue-500 hover:underline">
-            메인으로 돌아가기
-          </a>
-        </div>
-      </div>
-    )
+    return <RoomNotFoundClient puzzleId={puzzleId} roomId={roomId} />
   }
 
   return <GameScreen puzzleId={puzzleId} initialRoom={roomId} />

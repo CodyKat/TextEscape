@@ -1,7 +1,6 @@
 export type Language = 'ko' | 'ja' | 'en'
 
 export interface Translations {
-  // 공통
   common: {
     title: string
     description: string
@@ -16,7 +15,6 @@ export interface Translations {
     seoKeywords: string
   }
   
-  // 메인 페이지
   home: {
     welcome: string
     subtitle: string
@@ -32,7 +30,6 @@ export interface Translations {
     menuInstruction: string
   }
   
-  // 퍼즐
   puzzles: {
     key: {
       name: string
@@ -56,14 +53,12 @@ export interface Translations {
     }
   }
   
-  // 게임
   game: {
     inventory: string
     progress: string
     reset: string
     resetConfirm: string
     gameOver: string
-    escape: string
     restart: string
     roomNotFound: string
     accessDenied: string
@@ -75,9 +70,99 @@ export interface Translations {
     puzzleId: string
     returnToMain: string
     gameStartWarning: string
+    puzzle: string
+    room: string
+    goBackToMain: string
+    common: {
+        back: string
+        continue: string
+        go_back: string
+      }
+    entrance: {
+        title: string
+        description: string
+        choices: {
+          go_to_door: string
+          go_to_bookshelf: string
+          machine: string
+          box: string
+        }
+    }
+      door: {
+        title: string
+        description: string
+        choices: {
+          useKey: string
+          go_back: string
+        }
+      }
+      bookshelf: {
+        title: string
+        description: string
+        choices: {
+          examine_book: string
+          go_back: string
+        }
+      }
+      bookshelfDetail: {
+        title: string
+        description: string
+        choices: {
+          takeKey: string
+          takeNumber: string
+          checkBack: string
+          go_back: string
+        }
+      }
+      escape: {
+        title: string
+        description: string
+        choices: {
+          restart: string
+        }
+      }
+      start: {
+        title: string
+        description: string
+        choices: {
+          use_calculator: string
+        }
+      }
+      calculator: {
+        title: string
+        description: string
+        choices: {
+          takeCode: string
+        }
+      }
+      codeInput: {
+        title: string
+        description: string
+        choices: {
+          enterCode: string
+        }
+      }
   }
   
-  // 헤더
+  items: {
+    key: {
+      name: string
+      description: string
+    }
+    machineKey: {
+      name: string
+      description: string
+    }
+    bookNumber: {
+      name: string
+      description: string
+    }
+    flashlight: {
+      name: string
+      description: string
+    }
+  }
+  
   header: {
     gameSelection: string
     progressLossWarning: string
@@ -141,7 +226,6 @@ export const translations: Record<Language, Translations> = {
       reset: '초기화',
       resetConfirm: '게임 진행 정보가 손실됩니다. 정말 다른 퍼즐로 이동하시겠습니까?',
       gameOver: '게임 오버',
-      escape: '탈출 성공!',
       restart: '다시 시작하기',
       roomNotFound: '방을 찾을 수 없습니다',
       accessDenied: '🚫 접근 제한',
@@ -152,7 +236,97 @@ export const translations: Record<Language, Translations> = {
       puzzleNotFound: '퍼즐을 찾을 수 없습니다',
       puzzleId: '퍼즐 ID',
       returnToMain: '메인으로 돌아가기',
-      gameStartWarning: '⚠️ 게임을 시작하면 이전 진행 상황이 모두 초기화됩니다.'
+      gameStartWarning: '⚠️ 게임을 시작하면 이전 진행 상황이 모두 초기화됩니다.',
+      puzzle: '퍼즐',
+      room: '방',
+      goBackToMain: '메인으로 돌아가기',
+      common: {
+        back: '돌아간다',
+        continue: '계속하기',
+        go_back: '돌아간다'
+      },
+      entrance: {
+        title: '어두운 방',
+        description: '당신은 어두운 방에 갇혀있습니다. 앞쪽에는 낡은 문이 있고, 오른쪽에는 책장이 있습니다. 왼쪽에는 이상한 기계가 놓여있습니다. 구석에는 상자가 보입니다.',
+        choices: {
+          go_to_door: '문을 조사한다',
+          go_to_bookshelf: '책장을 조사한다',
+          machine: '기계를 조사한다',
+          box: '상자를 조사한다'
+        }
+      },
+      door: {
+        title: '낡은 문',
+        description: '문은 잠겨있습니다. 열쇠가 필요한 것 같습니다.',
+        choices: {
+          useKey: '열쇠를 사용한다',
+          go_back: '돌아간다'
+        }
+      },
+      bookshelf: {
+        title: '책장',
+        description: '책장에는 여러 책들이 꽂혀있습니다. 그 중 하나가 이상하게 보입니다.',
+        choices: {
+          examine_book: '책들을 자세히 살펴본다',
+          go_back: '돌아간다'
+        }
+      },
+      bookshelfDetail: {
+        title: '이상한 책',
+        description: '책장에서 이상한 책을 발견했습니다. 책 안에서 열쇠와 숫자가 적힌 쪽지가 나왔습니다! 책장 뒤쪽에서도 이상한 소리가 들립니다.',
+        choices: {
+          takeKey: '열쇠를 가져간다',
+          takeNumber: '숫자 쪽지를 가져간다',
+          checkBack: '책장 뒤를 확인한다',
+          go_back: '돌아간다'
+        }
+      },
+      escape: {
+        title: '🎉 탈출 성공! 🎉',
+        description: '축하합니다! 당신은 모든 퍼즐을 해결하고 방에서 성공적으로 탈출했습니다! 당신의 탐험 정신과 문제 해결 능력이 빛났습니다.',
+        choices: {
+          restart: '🎮 다시 시작하기'
+        }
+      },
+      start: {
+        title: '숫자 방',
+        description: '이 방에는 여러 개의 숫자 패드가 있습니다. 각 패드는 서로 다른 규칙을 가지고 있는 것 같습니다. 정답을 찾아 탈출하세요!',
+        choices: {
+          use_calculator: '계산기를 사용한다'
+        }
+      },
+      calculator: {
+        title: '계산기',
+        description: '계산기 뒤에 코드가 적힌 종이가 숨겨져 있습니다.',
+        choices: {
+          takeCode: '코드 종이 가져가기'
+        }
+      },
+      codeInput: {
+        title: '코드 입력',
+        description: '숫자 패드가 있습니다. 코드 종이에 적힌 숫자를 입력하세요.',
+        choices: {
+          enterCode: '코드 입력하기'
+        }
+      }
+    },
+    items: {
+      key: {
+        name: '낡은 열쇠',
+        description: '문을 열 수 있을 것 같은 낡은 열쇠입니다.'
+      },
+      machineKey: {
+        name: '기계 열쇠',
+        description: '기계에서 나온 특별한 열쇠입니다.'
+      },
+      bookNumber: {
+        name: '숫자 쪽지',
+        description: '책에서 나온 쪽지에 "2024"라고 적혀있습니다.'
+      },
+      flashlight: {
+        name: '손전등',
+        description: '어두운 곳을 밝혀줄 수 있는 손전등입니다.'
+      }
     },
     header: {
       gameSelection: '게임 선택',
@@ -215,7 +389,6 @@ export const translations: Record<Language, Translations> = {
       reset: 'リセット',
       resetConfirm: 'ゲーム進行情報が失われます。本当に別のパズルに移動しますか？',
       gameOver: 'ゲームオーバー',
-      escape: '脱出成功！',
       restart: '再開',
       roomNotFound: '部屋が見つかりません',
       accessDenied: '🚫 アクセス拒否',
@@ -226,7 +399,97 @@ export const translations: Record<Language, Translations> = {
       puzzleNotFound: 'パズルが見つかりません',
       puzzleId: 'パズルID',
       returnToMain: 'メインに戻る',
-      gameStartWarning: '⚠️ ゲームを開始すると、以前の進行状況がすべてリセットされます。'
+      gameStartWarning: '⚠️ ゲームを開始すると、以前の進行状況がすべてリセットされます。',
+      puzzle: 'パズル',
+      room: '部屋',
+      goBackToMain: 'メインに戻る',
+      common: {
+        back: '戻る',
+        continue: '続ける',
+        go_back: '戻る'
+      },
+      entrance: {
+        title: '暗い部屋',
+        description: 'あなたは暗い部屋に閉じ込められています。前方には古い扉があり、右側には本棚があります。左側には奇妙な機械が置かれています。隅には箱が見えます。',
+        choices: {
+          go_to_door: '扉を調べる',
+          go_to_bookshelf: '本棚を調べる',
+          machine: '機械を調べる',
+          box: '箱を調べる'
+        }
+      },
+      door: {
+        title: '古い扉',
+        description: '扉は鍵がかかっています。鍵が必要なようです。',
+        choices: {
+          useKey: '鍵を使用する',
+          go_back: '戻る'
+        }
+      },
+      bookshelf: {
+        title: '本棚',
+        description: '本棚には多くの本が並んでいます。その中に一つ奇妙な本があります。',
+        choices: {
+          examine_book: '本を詳しく調べる',
+          go_back: '戻る'
+        }
+      },
+      bookshelfDetail: {
+        title: '奇妙な本',
+        description: '本棚で奇妙な本を発見しました。本の中から鍵と数字が書かれたメモが出てきました！本棚の後ろからも奇妙な音が聞こえます。',
+        choices: {
+          takeKey: '鍵を取る',
+          takeNumber: '数字のメモを取る',
+          checkBack: '本棚の後ろを確認する',
+          go_back: '戻る'
+        }
+      },
+      escape: {
+        title: '🎉 脱出成功！🎉',
+        description: 'おめでとうございます！あなたはすべてのパズルを解決し、部屋から無事に脱出しました！あなたの探検精神と問題解決能力が輝きました。',
+        choices: {
+          restart: '🎮 再開'
+        }
+      },
+      start: {
+        title: '数字の部屋',
+        description: 'この部屋には複数の数字パッドがあります。各パッドは異なるルールを持っているようです。正解を見つけて脱出してください！',
+        choices: {
+          use_calculator: '計算機を使用する'
+        }
+      },
+      calculator: {
+        title: '計算機',
+        description: '計算機の後ろにコードが書かれた紙が隠されています。',
+        choices: {
+          takeCode: 'コードの紙を取る'
+        }
+      },
+      codeInput: {
+        title: 'コード入力',
+        description: '数字パッドがあります。コードの紙に書かれた数字を入力してください。',
+        choices: {
+          enterCode: 'コードを入力する'
+        }
+      }
+    },
+    items: {
+      key: {
+        name: '古い鍵',
+        description: '扉を開けることができる古い鍵です。'
+      },
+      machineKey: {
+        name: '機械の鍵',
+        description: '機械から出た特別な鍵です。'
+      },
+      bookNumber: {
+        name: '数字のメモ',
+        description: '本から出たメモに「2024」と書かれています。'
+      },
+      flashlight: {
+        name: '懐中電灯',
+        description: '暗い場所を照らすことができる懐中電灯です。'
+      }
     },
     header: {
       gameSelection: 'ゲーム選択',
@@ -289,7 +552,6 @@ export const translations: Record<Language, Translations> = {
       reset: 'Reset',
       resetConfirm: 'Game progress will be lost. Are you sure you want to move to another puzzle?',
       gameOver: 'Game Over',
-      escape: 'Escape Success!',
       restart: 'Restart',
       roomNotFound: 'Room not found',
       accessDenied: '🚫 Access Denied',
@@ -300,7 +562,97 @@ export const translations: Record<Language, Translations> = {
       puzzleNotFound: 'Puzzle not found',
       puzzleId: 'Puzzle ID',
       returnToMain: 'Return to Main',
-      gameStartWarning: '⚠️ Starting the game will reset all previous progress.'
+      gameStartWarning: '⚠️ Starting the game will reset all previous progress.',
+      puzzle: 'Puzzle',
+      room: 'Room',
+      goBackToMain: 'Return to Main',
+      common: {
+        back: 'Go Back',
+        continue: 'Continue',
+        go_back: 'Go Back'
+      },
+      entrance: {
+        title: 'Dark Room',
+        description: 'You are trapped in a dark room. There is an old door in front, a bookshelf on the right, a strange machine on the left, and a box in the corner.',
+        choices: {
+          go_to_door: 'Examine the door',
+          go_to_bookshelf: 'Examine the bookshelf',
+          machine: 'Examine the machine',
+          box: 'Examine the box'
+        }
+      },
+      door: {
+        title: 'Old Door',
+        description: 'The door is locked. It seems to need a key.',
+        choices: {
+          useKey: 'Use the key',
+          go_back: 'Go Back'
+        }
+      },
+      bookshelf: {
+        title: 'Bookshelf',
+        description: 'There are many books on the bookshelf. One of them looks strange.',
+        choices: {
+          examine_book: 'Examine the books closely',
+          go_back: 'Go Back'
+        }
+      },
+      bookshelfDetail: {
+        title: 'Strange Book',
+        description: 'You found a strange book on the bookshelf. A key and a note with numbers came out of the book! There is also a strange sound from behind the bookshelf.',
+        choices: {
+          takeKey: 'Take the key',
+          takeNumber: 'Take the number note',
+          checkBack: 'Check behind the bookshelf',
+          go_back: 'Go Back'
+        }
+      },
+      escape: {
+        title: '🎉 Escape Success! 🎉',
+        description: 'Congratulations! You have solved all the puzzles and successfully escaped from the room! Your exploration spirit and problem-solving skills have shone.',
+        choices: {
+          restart: '🎮 Restart'
+        }
+      },
+      start: {
+        title: 'Number Room',
+        description: 'This room has several number pads. Each pad seems to have different rules. Find the correct answer and escape!',
+        choices: {
+          use_calculator: 'Use Calculator'
+        }
+      },
+      calculator: {
+        title: 'Calculator',
+        description: 'There is a piece of paper with a code hidden behind the calculator.',
+        choices: {
+          takeCode: 'Take the code paper'
+        }
+      },
+      codeInput: {
+        title: 'Code Input',
+        description: 'There is a number pad. Enter the number written on the code paper.',
+        choices: {
+          enterCode: 'Enter the code'
+        }
+      }
+    },
+    items: {
+      key: {
+        name: 'Old Key',
+        description: 'An old key that might open a door.'
+      },
+      machineKey: {
+        name: 'Machine Key',
+        description: 'A special key from the machine.'
+      },
+      bookNumber: {
+        name: 'Number Note',
+        description: 'A note from the book that says "2024".'
+      },
+      flashlight: {
+        name: 'Flashlight',
+        description: 'A flashlight that can light up dark places.'
+      }
     },
     header: {
       gameSelection: 'Game Selection',
