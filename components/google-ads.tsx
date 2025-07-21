@@ -24,6 +24,20 @@ export function AdSenseAd({
   adFormat?: string
   fullWidthResponsive?: boolean
 }) {
+  // 개발 환경이나 AdSense가 설정되지 않은 경우 광고를 숨김
+  if (process.env.NODE_ENV === 'development' || !process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID) {
+    return (
+      <div className="my-4 p-4 bg-gray-800/50 border border-gray-700 rounded-lg text-center">
+        <p className="text-gray-400 text-sm">
+          📢 광고 영역 (개발 모드)
+        </p>
+        <p className="text-gray-500 text-xs mt-1">
+          AdSense 설정 후 실제 광고가 표시됩니다
+        </p>
+      </div>
+    )
+  }
+
   return (
     <div className="my-4 text-center">
       <ins
