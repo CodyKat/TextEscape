@@ -5,10 +5,11 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "build:static": "next build && next export",
+    "build:static": "NODE_ENV=production next build",
+    "build:analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
-    "analyze": "ANALYZE=true next build"
+    "export": "next build && next export"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.14",

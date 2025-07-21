@@ -187,8 +187,177 @@ export const ITEM_INFO: Record<string, { name: string; description: string }> = 
 }
 
 // 아이템 ID로 이름 가져오기
-export function getItemName(itemId: string): string {
-  return ITEM_INFO[itemId]?.name || itemId
+export function getItemName(itemId: string, lang: 'ko' | 'ja' | 'en' = 'ko'): string {
+  // 언어별 아이템 이름 매핑
+  const itemNames: Record<string, Record<'ko' | 'ja' | 'en', string>> = {
+    [ITEM_IDS.KEY]: {
+      ko: '열쇠',
+      ja: '鍵',
+      en: 'Key'
+    },
+    [ITEM_IDS.OLD_KEY]: {
+      ko: '낡은 열쇠',
+      ja: '古い鍵',
+      en: 'Old Key'
+    },
+    [ITEM_IDS.GOLDEN_KEY]: {
+      ko: '황금 열쇠',
+      ja: '金の鍵',
+      en: 'Golden Key'
+    },
+    [ITEM_IDS.NOTE]: {
+      ko: '메모지',
+      ja: 'メモ',
+      en: 'Note'
+    },
+    [ITEM_IDS.DIARY]: {
+      ko: '일기장',
+      ja: '日記',
+      en: 'Diary'
+    },
+    [ITEM_IDS.MAP]: {
+      ko: '지도',
+      ja: '地図',
+      en: 'Map'
+    },
+    [ITEM_IDS.INSTRUCTION]: {
+      ko: '설명서',
+      ja: '説明書',
+      en: 'Instruction'
+    },
+    [ITEM_IDS.SCREWDRIVER]: {
+      ko: '드라이버',
+      ja: 'ドライバー',
+      en: 'Screwdriver'
+    },
+    [ITEM_IDS.HAMMER]: {
+      ko: '망치',
+      ja: 'ハンマー',
+      en: 'Hammer'
+    },
+    [ITEM_IDS.FLASHLIGHT]: {
+      ko: '손전등',
+      ja: '懐中電灯',
+      en: 'Flashlight'
+    },
+    [ITEM_IDS.PUZZLE_PIECE_1]: {
+      ko: '퍼즐 조각 1',
+      ja: 'パズルピース1',
+      en: 'Puzzle Piece 1'
+    },
+    [ITEM_IDS.PUZZLE_PIECE_2]: {
+      ko: '퍼즐 조각 2',
+      ja: 'パズルピース2',
+      en: 'Puzzle Piece 2'
+    },
+    [ITEM_IDS.PUZZLE_PIECE_3]: {
+      ko: '퍼즐 조각 3',
+      ja: 'パズルピース3',
+      en: 'Puzzle Piece 3'
+    },
+    [ITEM_IDS.PUZZLE_PIECE_4]: {
+      ko: '퍼즐 조각 4',
+      ja: 'パズルピース4',
+      en: 'Puzzle Piece 4'
+    },
+    [ITEM_IDS.RED_GEM]: {
+      ko: '빨간 보석',
+      ja: '赤い宝石',
+      en: 'Red Gem'
+    },
+    [ITEM_IDS.BLUE_GEM]: {
+      ko: '파란 보석',
+      ja: '青い宝石',
+      en: 'Blue Gem'
+    },
+    [ITEM_IDS.GREEN_GEM]: {
+      ko: '초록 보석',
+      ja: '緑の宝石',
+      en: 'Green Gem'
+    },
+    [ITEM_IDS.YELLOW_GEM]: {
+      ko: '노란 보석',
+      ja: '黄色い宝石',
+      en: 'Yellow Gem'
+    },
+    [ITEM_IDS.CODE_PAPER]: {
+      ko: '코드 종이',
+      ja: 'コード用紙',
+      en: 'Code Paper'
+    },
+    [ITEM_IDS.CALCULATOR]: {
+      ko: '계산기',
+      ja: '計算機',
+      en: 'Calculator'
+    },
+    [ITEM_IDS.BOOK]: {
+      ko: '책',
+      ja: '本',
+      en: 'Book'
+    },
+    [ITEM_IDS.CANDLE]: {
+      ko: '양초',
+      ja: 'ろうそく',
+      en: 'Candle'
+    },
+    [ITEM_IDS.MATCHES]: {
+      ko: '성냥',
+      ja: 'マッチ',
+      en: 'Matches'
+    },
+    [ITEM_IDS.STUDY_KEY]: {
+      ko: '서재 열쇠',
+      ja: '書斎の鍵',
+      en: 'Study Key'
+    },
+    [ITEM_IDS.OLD_DIARY]: {
+      ko: '낡은 일기장',
+      ja: '古い日記',
+      en: 'Old Diary'
+    },
+    [ITEM_IDS.TORN_MAP_PIECE_A]: {
+      ko: '찢어진 지도 조각 A',
+      ja: '破れた地図の断片A',
+      en: 'Torn Map Piece A'
+    },
+    [ITEM_IDS.DUSTY_BOOK]: {
+      ko: '먼지 쌓인 고서',
+      ja: '埃っぽい古書',
+      en: 'Dusty Book'
+    },
+    [ITEM_IDS.CORRIDOR_KEY]: {
+      ko: '복도 열쇠',
+      ja: '廊下の鍵',
+      en: 'Corridor Key'
+    },
+    [ITEM_IDS.FADED_PHOTOGRAPH]: {
+      ko: '빛바랜 사진',
+      ja: '色褪せた写真',
+      en: 'Faded Photograph'
+    },
+    [ITEM_IDS.EMPTY_BOTTLE]: {
+      ko: '빈 유리병',
+      ja: '空の瓶',
+      en: 'Empty Bottle'
+    },
+    [ITEM_IDS.STAINED_GLASS_SHARD]: {
+      ko: '스테인드 글라스 조각',
+      ja: 'ステンドグラスの破片',
+      en: 'Stained Glass Shard'
+    },
+    [ITEM_IDS.GARDENING_SHEARS]: {
+      ko: '낡은 원예 가위',
+      ja: '古い園芸用はさみ',
+      en: 'Gardening Shears'
+    },
+    [ITEM_IDS.TORN_MAP_PIECE_B]: {
+      ko: '찢어진 지도 조각 B',
+      ja: '破れた地図の断片B',
+      en: 'Torn Map Piece B'
+    }
+  }
+
+  return itemNames[itemId]?.[lang] || ITEM_INFO[itemId]?.name || itemId
 }
 
 // 아이템 ID로 설명 가져오기

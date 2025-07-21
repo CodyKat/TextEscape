@@ -17,6 +17,29 @@ export const LANGUAGE_FLAGS: Record<Language, string> = {
   en: '🇺🇸'
 }
 
+// URL 쿼리에서 언어 가져오기
+export function getLanguageFromURL(): Language | null {
+  if (typeof window === 'undefined') return null
+  
+  const urlParams = new URLSearchParams(window.location.search)
+  const lang = urlParams.get('lang') as Language
+  
+  if (lang && SUPPORTED_LANGUAGES.includes(lang)) {
+    return lang
+  }
+  
+  return null
+}
+
+// URL에 언어 설정하기
+export function setLanguageInURL(lang: Language): void {
+  if (typeof window === 'undefined') return
+  
+  const url = new URL(window.location.href)
+  url.searchParams.set('lang', lang)
+  window.history.replaceState({}, '', url.toString())
+}
+
 // 브라우저 언어 감지
 export function detectLanguage(): Language {
   if (typeof window === 'undefined') {
@@ -44,12 +67,19 @@ export function setLanguage(lang: Language): void {
   if (typeof window === 'undefined') return
   
   localStorage.setItem('preferred-language', lang)
+  setLanguageInURL(lang)
 }
 
 // 언어 설정 불러오기
 export function getLanguage(): Language {
   if (typeof window === 'undefined') {
     return 'ko'
+  }
+
+  // URL에서 언어 확인
+  const urlLang = getLanguageFromURL()
+  if (urlLang) {
+    return urlLang
   }
 
   const saved = localStorage.getItem('preferred-language') as Language

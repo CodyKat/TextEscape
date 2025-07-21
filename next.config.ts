@@ -5,12 +5,14 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 
 const nextConfig: NextConfig = {
-  // 정적 내보내기 설정 (개발 시에는 비활성화)
-  // output: 'export',
+  // 정적 내보내기 설정 (프로덕션에서만 활성화)
+  output: process.env.NODE_ENV === 'production' ? 'export' : undefined,
   
-  // 이미지 최적화 설정
+  // 이미지 최적화 설정 (정적 내보내기를 위해 항상 unoptimized)
   images: {
-    unoptimized: process.env.NODE_ENV === 'production',
+    unoptimized: true,
+    domains: [],
+    remotePatterns: [],
   },
   
   // 트레일링 슬래시 제거
@@ -22,7 +24,8 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['zustand'],
   },
   
-  // 빌드 최적화 (swcMinify는 Next.js 15에서 기본값)
+  // 빌드 최적화
+  swcMinify: true,
   
   // 환경 변수 설정
   env: {
@@ -34,6 +37,9 @@ const nextConfig: NextConfig = {
   
   // 정적 최적화
   poweredByHeader: false,
+  
+  // 정적 내보내기 최적화
+  distDir: 'out',
 };
 
 export default withBundleAnalyzer(nextConfig);

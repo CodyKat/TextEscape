@@ -12,6 +12,7 @@ import {
   changeLanguage 
 } from '@/lib/i18n/language'
 import { Language } from '@/lib/i18n/translations'
+import { getTranslation } from '@/lib/i18n'
 
 export function LanguageSelector() {
   const [currentLang, setCurrentLang] = useState<Language>('ko')
@@ -46,7 +47,7 @@ export function LanguageSelector() {
       </SheetTrigger>
       <SheetContent side="right" className="bg-black/95 border-l border-gray-800">
         <SheetHeader>
-          <SheetTitle className="text-white text-xl">언어 선택</SheetTitle>
+          <SheetTitle className="text-white text-xl">{getTranslation(currentLang, 'common.languageSelection')}</SheetTitle>
         </SheetHeader>
         <div className="mt-6 space-y-4">
           {SUPPORTED_LANGUAGES.map((lang) => (
@@ -66,7 +67,7 @@ export function LanguageSelector() {
                     {LANGUAGE_NAMES[lang]}
                   </h3>
                   {currentLang === lang && (
-                    <p className="text-sm text-blue-400">현재 선택됨</p>
+                    <p className="text-sm text-blue-400">{getTranslation(currentLang, 'common.currentlySelected')}</p>
                   )}
                 </div>
               </div>
