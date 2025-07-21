@@ -1,11 +1,34 @@
+'use client'
+
+import { getTranslation } from '@/lib/i18n'
+import { getLanguage } from '@/lib/i18n/language'
+import { useEffect, useState } from 'react'
+
 export function Footer() {
+  const [lang, setLang] = useState<'ko' | 'ja' | 'en'>('ko')
+
+  useEffect(() => {
+    // 언어 설정
+    setLang(getLanguage())
+
+    // 언어 변경 이벤트 리스너
+    const handleLanguageChange = () => {
+      setLang(getLanguage())
+    }
+
+    window.addEventListener('storage', handleLanguageChange)
+    return () => {
+      window.removeEventListener('storage', handleLanguageChange)
+    }
+  }, [])
+
   return (
     <footer className="bg-black text-white py-8 mt-auto">
       <div className="max-w-4xl mx-auto px-4 text-center">
         <div className="mb-4">
           <h3 className="text-xl font-bold mb-2">TEXT-ESCAPE</h3>
           <p className="text-gray-400 text-sm">
-            텍스트 기반 방탈출 게임의 세계에 오신 것을 환영합니다
+            {getTranslation(lang, 'common.footerDescription')}
           </p>
         </div>
         

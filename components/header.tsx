@@ -5,40 +5,43 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from '@/components/ui/sheet'
 import { Menu, X } from 'lucide-react'
+import { LanguageSelector } from '@/components/language-selector'
+import { getLanguage, getTranslation } from '@/lib/i18n'
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
+  const lang = getLanguage()
 
   const puzzles = [
     {
-      id: 'key-puzzle',
-      name: '🔑 열쇠 퍼즐',
-      description: '열쇠를 찾아 문을 열어보세요',
+      id: 'key',
+      name: getTranslation(lang, 'puzzles.key.name'),
+      description: getTranslation(lang, 'puzzles.key.description'),
       path: '/game/key'
     },
     {
-      id: 'number-puzzle',
-      name: '🔢 숫자 퍼즐',
-      description: '숫자 패드의 비밀을 풀어보세요',
+      id: 'number',
+      name: getTranslation(lang, 'puzzles.number.name'),
+      description: getTranslation(lang, 'puzzles.number.description'),
       path: '/game/number'
     },
     {
-      id: 'color-puzzle',
-      name: '🎨 색상 퍼즐',
-      description: '색상 순서를 맞춰보세요',
+      id: 'color',
+      name: getTranslation(lang, 'puzzles.color.name'),
+      description: getTranslation(lang, 'puzzles.color.description'),
       path: '/game/color'
     },
     {
-      id: 'piece-puzzle',
-      name: '🧩 조각 퍼즐',
-      description: '퍼즐 조각을 모아 완성해보세요',
+      id: 'piece',
+      name: getTranslation(lang, 'puzzles.piece.name'),
+      description: getTranslation(lang, 'puzzles.piece.description'),
       path: '/game/piece'
     },
     {
-      id: 'study-puzzle',
-      name: '📚 서재 탈출',
-      description: '낡은 서재에서 탈출하세요',
+      id: 'study',
+      name: getTranslation(lang, 'puzzles.study.name'),
+      description: getTranslation(lang, 'puzzles.study.description'),
       path: '/game/study'
     }
   ]
@@ -46,7 +49,7 @@ export function Header() {
   const handlePuzzleSelect = (path: string) => {
     // 현재 URL이 게임 페이지이고, 다른 퍼즐로 이동하는 경우 경고 표시
     if (window.location.pathname.startsWith('/game/') && window.location.pathname !== path) {
-      const confirmed = window.confirm('게임 진행 정보가 손실됩니다. 정말 다른 퍼즐로 이동하시겠습니까?')
+      const confirmed = window.confirm(getTranslation(lang, 'game.resetConfirm'))
       if (confirmed) {
         router.push(path)
         setIsOpen(false)
@@ -61,7 +64,7 @@ export function Header() {
     e.preventDefault()
     // 현재 URL이 게임 페이지인지 확인
     if (window.location.pathname.startsWith('/game/')) {
-      const confirmed = window.confirm('게임 진행 정보가 손실됩니다. 정말 홈으로 이동하시겠습니까?')
+      const confirmed = window.confirm(getTranslation(lang, 'header.progressLossWarning'))
       if (confirmed) {
         router.push('/')
       }
@@ -83,7 +86,10 @@ export function Header() {
             TEXT-ESCAPE
           </button>
         </div>
-        <div className="flex-1 flex justify-end">
+        <div className="flex-1 flex justify-end items-center space-x-2">
+          {/* 언어 선택기 */}
+          <LanguageSelector />
+          
           {/* 햄버거 메뉴 */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
@@ -93,7 +99,7 @@ export function Header() {
             </SheetTrigger>
             <SheetContent side="right" className="bg-black/95 border-l border-gray-800">
               <SheetHeader className="flex flex-row items-center justify-between">
-                <SheetTitle className="text-white text-xl">게임 선택</SheetTitle>
+                <SheetTitle className="text-white text-xl">{getTranslation(lang, 'header.gameSelection')}</SheetTitle>
                 <SheetClose className="text-white hover:text-gray-300 transition-colors">
                   <X className="h-6 w-6" />
                 </SheetClose>

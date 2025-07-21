@@ -18,8 +18,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "방탈출 게임 - 텍스트 어드벤처",
+  title: "TEXT-ESCAPE - 텍스트 방탈출 게임",
   description: "텍스트 기반 방탈출 게임을 즐겨보세요! 다양한 퍼즐과 선택지로 구성된 몰입감 있는 어드벤처 게임입니다.",
+  keywords: "방탈출, 텍스트 게임, 퍼즐, 어드벤처, 한국어 게임, 온라인 게임",
+  openGraph: {
+    title: "TEXT-ESCAPE - 텍스트 방탈출 게임",
+    description: "텍스트 기반 방탈출 게임을 즐겨보세요! 다양한 퍼즐과 선택지로 구성된 몰입감 있는 어드벤처 게임입니다.",
+    type: "website",
+    locale: "ko_KR",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TEXT-ESCAPE - 텍스트 방탈출 게임",
+    description: "텍스트 기반 방탈출 게임을 즐겨보세요! 다양한 퍼즐과 선택지로 구성된 몰입감 있는 어드벤처 게임입니다.",
+  },
 };
 
 export default function RootLayout({

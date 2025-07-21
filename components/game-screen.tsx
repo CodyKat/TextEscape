@@ -1,7 +1,7 @@
 'use client'
 
 import { usePuzzleStore } from '@/lib/puzzle-store'
-import { getPuzzleRoom } from '@/lib/puzzle-game-data'
+import { getRoom } from '@/lib/i18n/game-data'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useEffect, useState } from 'react'
@@ -9,6 +9,7 @@ import { canAccessPuzzleRoom, getPuzzleRedirectRoom, getPuzzleStartRoom } from '
 import { useRouter } from 'next/navigation'
 import { getItemName } from '@/lib/item-constants'
 import { GameExitWarning } from '@/components/game-exit-warning'
+import { getLanguage, getTranslation } from '@/lib/i18n'
 // import { GoogleAds } from '@/components/google-ads'
 // import { AdsStats } from '@/components/ads-stats'
 // import { AnalyticsDashboard } from '@/components/analytics-dashboard'
@@ -22,9 +23,10 @@ interface GameScreenProps {
 export function GameScreen({ puzzleId = 'key', initialRoom }: GameScreenProps) {
   const puzzleStore = usePuzzleStore(puzzleId)
   const { currentRoom, inventory, visitedRooms, gameProgress, setCurrentRoom, addToInventory, removeFromInventory } = puzzleStore
-  const [room, setRoom] = useState(getPuzzleRoom(puzzleId, currentRoom))
+  const [room, setRoom] = useState(getRoom(currentRoom))
   const [imageLoaded, setImageLoaded] = useState(false)
   const router = useRouter()
+  const lang = getLanguage()
 
   // 초기 방 설정 및 접근 제어
   useEffect(() => {
@@ -73,14 +75,15 @@ export function GameScreen({ puzzleId = 'key', initialRoom }: GameScreenProps) {
     }
   }, [])
 
-  // 페이지 이탈 감지 및 경고 (브라우저 기본 다이얼로그 사용)
+      // 페이지 이탈 감지 및 경고 (브라우저 기본 다이얼로그 사용)
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       // 게임이 진행 중일 때만 경고 표시 (새로고침, 브라우저 닫기 등)
       if (currentRoom && currentRoom !== 'entrance') {
         e.preventDefault()
-        e.returnValue = '게임 진행 정보가 손실됩니다. 정말 나가시겠습니까?'
-        return '게임 진행 정보가 손실됩니다. 정말 나가시겠습니까?'
+        const warningMessage = getTranslation(lang, 'game.resetConfirm')
+        e.returnValue = warningMessage
+        return warningMessage
       }
     }
 
@@ -96,12 +99,12 @@ export function GameScreen({ puzzleId = 'key', initialRoom }: GameScreenProps) {
 
   // 방 변경 시 room 상태 업데이트
   useEffect(() => {
-    const newRoom = getPuzzleRoom(puzzleId, currentRoom)
+    const newRoom = getRoom(currentRoom)
     if (newRoom) {
       setRoom(newRoom)
       setImageLoaded(false) // 이미지 로드 상태 초기화
     }
-  }, [currentRoom, puzzleId])
+  }, [currentRoom])
 
   useEffect(() => {
     if (room?.backgroundImage) {
@@ -118,13 +121,13 @@ export function GameScreen({ puzzleId = 'key', initialRoom }: GameScreenProps) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
         <div className="text-white text-center">
-          <h1 className="text-2xl font-bold mb-4">방을 찾을 수 없습니다</h1>
+          <h1 className="text-2xl font-bold mb-4">{getTranslation(lang, 'game.roomNotFound')}</h1>
           <p className="text-gray-400">현재 방: {currentRoom}</p>
           <button 
             onClick={() => setCurrentRoom('entrance')}
             className="mt-4 px-4 py-2 bg-blue-600 rounded hover:bg-blue-700"
           >
-            입구로 돌아가기
+            {getTranslation(lang, 'game.goBackToEntrance')}
           </button>
         </div>
       </div>
@@ -136,12 +139,12 @@ export function GameScreen({ puzzleId = 'key', initialRoom }: GameScreenProps) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
         <div className="text-white text-center max-w-md mx-auto p-6">
-          <h1 className="text-2xl font-bold mb-4">🚫 접근 제한</h1>
+          <h1 className="text-2xl font-bold mb-4">{getTranslation(lang, 'game.accessDenied')}</h1>
           <p className="text-gray-300 mb-4">{accessCheck.reason}</p>
           
           {accessCheck.missingItems && (
             <div className="mb-4 p-3 bg-red-900/50 rounded border border-red-700">
-              <p className="text-red-300 text-sm">필요한 아이템:</p>
+              <p className="text-red-300 text-sm">{getTranslation(lang, 'game.requiredItems')}</p>
               <div className="flex flex-wrap gap-2 mt-2">
                 {accessCheck.missingItems.map(item => (
                   <span key={item} className="px-2 py-1 bg-red-800 rounded text-xs">
@@ -154,7 +157,7 @@ export function GameScreen({ puzzleId = 'key', initialRoom }: GameScreenProps) {
           
           {accessCheck.missingRooms && (
             <div className="mb-4 p-3 bg-yellow-900/50 rounded border border-yellow-700">
-              <p className="text-yellow-300 text-sm">먼저 방문해야 할 방:</p>
+              <p className="text-yellow-300 text-sm">{getTranslation(lang, 'game.missingRooms')}</p>
               <div className="flex flex-wrap gap-2 mt-2">
                 {accessCheck.missingRooms.map(room => (
                   <span key={room} className="px-2 py-1 bg-yellow-800 rounded text-xs">
@@ -172,7 +175,7 @@ export function GameScreen({ puzzleId = 'key', initialRoom }: GameScreenProps) {
             }}
             className="mt-4 px-6 py-3 bg-blue-600 rounded hover:bg-blue-700 transition-colors"
           >
-            적절한 방으로 이동
+            {getTranslation(lang, 'game.moveToAppropriateRoom')}
           </button>
         </div>
       </div>
@@ -299,7 +302,7 @@ export function GameScreen({ puzzleId = 'key', initialRoom }: GameScreenProps) {
               
               {inventory.length > 0 && (
                 <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-gray-800/80 rounded-lg border border-gray-600" style={{ color: 'white' }}>
-                  <h3 className="text-base sm:text-lg font-semibold mb-2 sm:mb-3 text-white game-text" style={{ color: 'white' }}>인벤토리</h3>
+                  <h3 className="text-base sm:text-lg font-semibold mb-2 sm:mb-3 text-white game-text" style={{ color: 'white' }}>{getTranslation(lang, 'game.inventory')}</h3>
                   <div className="flex flex-wrap gap-1 sm:gap-2">
                     {inventory.map((item) => (
                       <span

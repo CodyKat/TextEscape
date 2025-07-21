@@ -1,9 +1,7 @@
-import { Metadata } from 'next'
 import { GameScreen } from '@/components/game-screen'
-import { generatePuzzleMetadata } from '@/app/generateMetadata'
 import { getPuzzleRoom } from '@/lib/puzzle-game-data'
-import { canAccessPuzzleRoom, getPuzzleRedirectRoom } from '@/lib/puzzle-progress-guard'
-import { redirect } from 'next/navigation'
+import { Metadata } from 'next'
+import { generatePuzzleMetadata } from '@/app/generateMetadata'
 
 interface PuzzleRoomPageProps {
   params: Promise<{
