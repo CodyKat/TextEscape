@@ -19,10 +19,10 @@ interface GameScreenClientProps {
 export function GameScreenClient({ puzzleId = 'key', initialRoom }: GameScreenClientProps) {
   const puzzleStore = usePuzzleStore(puzzleId)
   const { currentRoom, inventory, visitedRooms, gameProgress, setCurrentRoom, addToInventory, removeFromInventory } = puzzleStore
-  const [room, setRoom] = useState(() => getPuzzleRoom(puzzleId, currentRoom, 'ko'))
+  const [room, setRoom] = useState(() => getPuzzleRoom(puzzleId, currentRoom, 'en'))
   const [imageLoaded, setImageLoaded] = useState(false)
   const router = useRouter()
-  const [lang, setLang] = useState<'ko' | 'ja' | 'en'>('ko')
+  const [lang, setLang] = useState<'ko' | 'ja' | 'en'>('en')
   const [mounted, setMounted] = useState(false)
 
   // 마운트 후 언어 설정

@@ -2,16 +2,33 @@ import { Metadata } from 'next'
 import { getPuzzleRoom, getPuzzleData } from '@/lib/puzzle-game-data'
 import { getTranslation } from '@/lib/i18n'
 import { getLanguage } from '@/lib/i18n/language'
+import { headers } from 'next/headers'
 
 // 언어 감지 함수 (서버 사이드)
-function detectLanguageFromHeaders(): 'ko' | 'ja' | 'en' {
-  // 서버 사이드에서는 기본값 반환
-  // 실제 언어는 클라이언트에서 결정됨
-  return 'ko'
+async function detectLanguageFromHeaders(): Promise<'ko' | 'ja' | 'en'> {
+  try {
+    const headersList = await headers()
+    const acceptLanguage = headersList.get('accept-language') || ''
+    
+    // accept-language 파싱 (예: "ko-KR,ko;q=0.9,en;q=0.8")
+    const languages = acceptLanguage
+      .split(',')
+      .map((lang: string) => lang.split(';')[0].trim().toLowerCase())
+    
+    for (const lang of languages) {
+      if (lang.startsWith('ko')) return 'ko'
+      if (lang.startsWith('ja')) return 'ja'
+      if (lang.startsWith('en')) return 'en'
+    }
+  } catch (error) {
+    // 서버 사이드에서 headers() 사용 시 에러 처리
+  }
+  
+  return 'en' // 기본값
 }
 
-export function generatePuzzleMetadata(puzzleId: string, roomId: string, lang?: 'ko' | 'ja' | 'en'): Metadata {
-  const detectedLang = lang || detectLanguageFromHeaders()
+export async function generatePuzzleMetadata(puzzleId: string, roomId: string, lang?: 'ko' | 'ja' | 'en'): Promise<Metadata> {
+  const detectedLang = lang || await detectLanguageFromHeaders()
   const puzzleData = getPuzzleData(puzzleId)
   const room = getPuzzleRoom(puzzleId, roomId)
   

@@ -10,7 +10,29 @@ import { Language } from '@/lib/i18n'
 
 export default function Home() {
   const puzzles = getAllPuzzles()
-  const [lang, setLang] = useState<Language>('ko')
+  const [lang, setLang] = useState<Language>(() => {
+    // 서버 사이드에서는 기본값, 클라이언트에서는 브라우저 언어 감지
+    if (typeof window === 'undefined') return 'en'
+    
+    // URL에서 언어 확인
+    const urlParams = new URLSearchParams(window.location.search)
+    const urlLang = urlParams.get('lang') as Language
+    if (urlLang && ['ko', 'ja', 'en'].includes(urlLang)) {
+      return urlLang
+    }
+    
+    // localStorage에서 저장된 언어 확인
+    const saved = localStorage.getItem('preferred-language') as Language
+    if (saved && ['ko', 'ja', 'en'].includes(saved)) {
+      return saved
+    }
+    
+    // 브라우저 언어 감지
+    const browserLang = navigator.language.toLowerCase()
+    if (browserLang.startsWith('ko')) return 'ko'
+    if (browserLang.startsWith('ja')) return 'ja'
+    return 'en'
+  })
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {

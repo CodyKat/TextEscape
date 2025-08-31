@@ -15,7 +15,7 @@ import { Language } from '@/lib/i18n/translations'
 import { getTranslation } from '@/lib/i18n'
 
 export function LanguageSelector() {
-  const [currentLang, setCurrentLang] = useState<Language>('ko')
+  const [currentLang, setCurrentLang] = useState<Language>('en')
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {

@@ -10,7 +10,7 @@ interface RoomNotFoundClientProps {
 }
 
 export default function RoomNotFoundClient({ puzzleId, roomId }: RoomNotFoundClientProps) {
-  const [lang, setLang] = useState<'ko' | 'ja' | 'en'>('ko')
+  const [lang, setLang] = useState<'ko' | 'ja' | 'en'>('en')
 
   useEffect(() => {
     // 언어 설정

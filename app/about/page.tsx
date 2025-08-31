@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 import { Language } from '@/lib/i18n'
 
 export default function About() {
-  const [lang, setLang] = useState<Language>('ko')
+  const [lang, setLang] = useState<Language>('en')
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {

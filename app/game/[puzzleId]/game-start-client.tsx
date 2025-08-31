@@ -12,7 +12,7 @@ interface GameStartClientProps {
 }
 
 export default function GameStartClient({ puzzleId, puzzleData, startRoom }: GameStartClientProps) {
-  const [lang, setLang] = useState<'ko' | 'ja' | 'en'>('ko')
+  const [lang, setLang] = useState<'ko' | 'ja' | 'en'>('en')
 
   useEffect(() => {
     // 언어 설정

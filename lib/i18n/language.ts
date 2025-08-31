@@ -1,7 +1,7 @@
 import { Language } from './translations'
 
 // 지원하는 언어 목록
-export const SUPPORTED_LANGUAGES: Language[] = ['ko', 'ja', 'en']
+export const SUPPORTED_LANGUAGES: Language[] = ['en', 'ko', 'ja']
 
 // 언어별 표시 이름
 export const LANGUAGE_NAMES: Record<Language, string> = {
@@ -73,15 +73,15 @@ export function setLanguage(lang: Language): void {
 // 언어 설정 불러오기
 export function getLanguage(): Language {
   if (typeof window === 'undefined') {
-    return 'ko'
+    return 'en'
   }
-
+  
   // URL에서 언어 확인
   const urlLang = getLanguageFromURL()
   if (urlLang) {
     return urlLang
   }
-
+  
   const saved = localStorage.getItem('preferred-language') as Language
   if (saved && SUPPORTED_LANGUAGES.includes(saved)) {
     return saved
