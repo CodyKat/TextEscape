@@ -32,34 +32,22 @@ async function getPayPalAccessToken(): Promise<string> {
 
 // 플랜 가격 정보 (환경과 구독 기간에 따라)
 const getPlanPrices = (environment: string, billingPeriod: 'monthly' | 'yearly') => {
-  if (environment === 'sandbox') {
-    // Sandbox: USD
-    if (billingPeriod === 'yearly') {
-      return {
-        premium: 8.90,  // 월당 8.9USD (12개월)
-        pro: 25.90,     // 월당 25.9USD (12개월)
-      }
-    }
-    return {
-      premium: 9.90,   // 월간 9.9USD
-      pro: 29.90,      // 월간 29.9USD
-    }
-  }
-  // Live 환경: 원화 (추후 설정 가능)
+  // Sandbox와 Live 모두 USD 사용 (PayPal 계정 호환성)
   if (billingPeriod === 'yearly') {
     return {
-      premium: 8900,   // 월당 (12개월)
-      pro: 25900,      // 월당 (12개월)
+      premium: 8.90,  // 월당 8.9USD (12개월)
+      pro: 25.90,     // 월당 25.9USD (12개월)
     }
   }
   return {
-    premium: 9900,
-    pro: 29900,
+    premium: 9.90,   // 월간 9.9USD
+    pro: 29.90,      // 월간 29.9USD
   }
 }
 
 const getCurrencyCode = (environment: string) => {
-  return environment === 'sandbox' ? 'USD' : 'KRW'
+  // 모든 환경에서 USD 사용 (PayPal 계정이 KRW를 지원하지 않을 수 있음)
+  return 'USD'
 }
 
 export async function POST(req: Request) {
