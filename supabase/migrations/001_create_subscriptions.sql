@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS subscriptions (
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE UNIQUE,
   paypal_subscription_id TEXT UNIQUE,
   plan_id TEXT NOT NULL DEFAULT 'free', -- 'free', 'premium', 'pro'
-  status TEXT NOT NULL DEFAULT 'active', -- 'active', 'canceled', 'past_due', 'pending'
+  status TEXT NOT NULL DEFAULT 'active', -- 'active', 'canceled', 'canceling', 'past_due', 'pending'
   current_period_end TIMESTAMPTZ,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()

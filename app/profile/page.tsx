@@ -124,7 +124,12 @@ export default function ProfilePage() {
   const status = subscription?.status || 'active'
   const currentPeriodEnd = subscription?.current_period_end
   const isPremiumOrPro = planId === 'premium' || planId === 'pro'
+  // 취소 가능: active 상태이고 PayPal 구독 ID가 있는 경우
   const canCancel = isPremiumOrPro && status === 'active' && subscription?.paypal_subscription_id
+  
+  // 서비스 종료일 계산 (canceling 상태인 경우)
+  const isServiceActive = status === 'active' || 
+    (status === 'canceling' && currentPeriodEnd && new Date(currentPeriodEnd) > new Date())
 
   const plans = {
     free: {
@@ -137,14 +142,14 @@ export default function ProfilePage() {
     premium: {
       name: 'Premium',
       description: 'Premium Plan',
-      features: ['All Game Access', 'No Ads', 'Priority Support'],
+      features: ['All Game Access', '20k token game play'], 
       color: 'text-yellow-600 dark:text-yellow-400',
       bgColor: 'bg-yellow-100 dark:bg-yellow-900/30',
     },
     pro: {
       name: 'Pro',
       description: 'Pro Plan',
-      features: ['All Game Access', 'No Ads', 'Priority Support', 'Special Features'],
+      features: ['All Game Access', 'Unlimited token game play'],
       color: 'text-blue-600 dark:text-blue-400',
       bgColor: 'bg-blue-100 dark:bg-blue-900/30',
     },
@@ -166,6 +171,13 @@ export default function ProfilePage() {
           <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
             <Clock className="w-3 h-3" />
             Pending
+          </span>
+        )
+      case 'canceling':
+        return (
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">
+            <Clock className="w-3 h-3" />
+            Canceling
           </span>
         )
       case 'canceled':
@@ -234,10 +246,14 @@ export default function ProfilePage() {
             </ul>
           </div>
 
-          {currentPeriodEnd && status === 'active' && (
+          {currentPeriodEnd && (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Calendar className="w-4 h-4" />
-              <span>Next Billing Date: {formatDate(currentPeriodEnd)}</span>
+              {status === 'canceling' ? (
+                <span>Service ends on: {formatDate(currentPeriodEnd)}</span>
+              ) : (
+                <span>Next Billing Date: {formatDate(currentPeriodEnd)}</span>
+              )}
             </div>
           )}
 

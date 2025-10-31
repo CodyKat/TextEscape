@@ -15,16 +15,31 @@ export async function GET() {
       )
     }
 
+    // 활성 구독 또는 취소 예정(canceling) 상태인 구독 조회
+    // canceling 상태는 30일 동안 서비스를 제공하므로 활성으로 간주
     const { data: subscription, error } = await supabase
       .from('subscriptions')
       .select('*')
       .eq('user_id', user.id)
-      .eq('status', 'active')
+      .in('status', ['active', 'canceling'])
       .single()
 
     if (error && error.code !== 'PGRST116') {
       // PGRST116은 "no rows returned" 에러 (구독이 없는 경우)
       throw error
+    }
+    
+    // canceling 상태이고 서비스 종료일이 지났으면 null 반환
+    if (subscription && subscription.status === 'canceling') {
+      const serviceEndDate = subscription.current_period_end 
+        ? new Date(subscription.current_period_end) 
+        : null
+      if (serviceEndDate && serviceEndDate < new Date()) {
+        // 서비스 종료일이 지났으면 null 반환
+        return NextResponse.json({
+          subscription: null,
+        })
+      }
     }
 
     return NextResponse.json({
