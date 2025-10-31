@@ -57,9 +57,9 @@ export async function generateMetadata(): Promise<Metadata> {
   }
   
   const keywords = {
-    ko: "방탈출,텍스트게임,퍼즐,어드벤처,한국어게임,온라인게임",
-    ja: "脱出ゲーム,テキストゲーム,パズル,アドベンチャー,日本語ゲーム,オンラインゲーム",
-    en: "escape room,text game,puzzle,adventure,online game,free game"
+    ko: "방탈출,텍스트게임,퍼즐,어드벤처,한국어게임,온라인게임,AI",
+    ja: "脱出ゲーム,テキストゲーム,パズル,アドベンチャー,日本語ゲーム,オンラインゲーム,AI",
+    en: "escape room,text game,puzzle,adventure,online game,free game,AI"
   }
   
   const locales = {
@@ -94,15 +94,15 @@ export default async function RootLayout({
   const lang = await detectLanguageFromHeaders()
   
   return (
-    <html lang={lang}>
+    <html lang={lang} className="dark" suppressHydrationWarning>
       <head>
         <GoogleAdSense />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-background text-foreground`}
       >
         <Header />
-        <main className="flex-1 pt-16">
+        <main className="flex-1">
           {children}
         </main>
         <Footer />
@@ -112,3 +112,4 @@ export default async function RootLayout({
     </html>
   );
 }
+

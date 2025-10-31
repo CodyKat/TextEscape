@@ -1,48 +1,95 @@
 'use client'
 
-import { getTranslation } from '@/lib/i18n'
-import { getLanguage } from '@/lib/i18n/language'
-import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { useState, useEffect } from 'react'
 
 export function Footer() {
-  const [lang, setLang] = useState<'ko' | 'ja' | 'en'>('en')
+  const [currentYear, setCurrentYear] = useState(2024)
 
   useEffect(() => {
-    // 언어 설정
-    setLang(getLanguage())
-
-    // 언어 변경 이벤트 리스너
-    const handleLanguageChange = () => {
-      setLang(getLanguage())
-    }
-
-    window.addEventListener('storage', handleLanguageChange)
-    return () => {
-      window.removeEventListener('storage', handleLanguageChange)
-    }
+    setCurrentYear(new Date().getFullYear())
   }, [])
 
   return (
-    <footer className="bg-black text-white py-8 mt-auto">
-      <div className="max-w-4xl mx-auto px-4 text-center">
-        <div className="mb-4">
-          <h3 className="text-xl font-bold mb-2">TEXT-ESCAPE</h3>
-          <p className="text-gray-400 text-sm">
-            {getTranslation(lang, 'common.footerDescription')}
-          </p>
+    <footer className="w-full border-t border-border bg-background">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Brand */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-bold">TEXT-ESCAPE</h3>
+            <p className="text-sm text-muted-foreground">
+              Text-based escape room game platform
+            </p>
+            <p className="text-sm text-muted-foreground">contact: textescape42@gmail.com</p>
+          </div>
+
+          {/* Links */}
+          {/* <div className="space-y-4">
+            <h4 className="text-sm font-semibold">Games</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li>
+                <Link href="/discover" className="hover:text-foreground transition-colors">
+                  All Games
+                </Link>
+              </li>
+              <li>
+                <Link href="/discover?category=popular" className="hover:text-foreground transition-colors">
+                  Popular Games
+                </Link>
+              </li>
+              <li>
+                <Link href="/discover?category=new" className="hover:text-foreground transition-colors">
+                  New Games
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Support */}
+          {/* <div className="space-y-4">
+            <h4 className="text-sm font-semibold">Support</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li>
+                <Link href="/about" className="hover:text-foreground transition-colors">
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link href="/help" className="hover:text-foreground transition-colors">
+                  Help
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="hover:text-foreground transition-colors">
+                  Contact
+                </Link>
+              </li>
+            </ul>
+          </div> */}
+
+          {/* Legal */}
+          {/* <div className="space-y-4">
+            <h4 className="text-sm font-semibold">Legal</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li>
+                <Link href="/terms" className="hover:text-foreground transition-colors">
+                  Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link href="/privacy" className="hover:text-foreground transition-colors">
+                  Privacy Policy
+                </Link>
+              </li>
+            </ul>
+          </div> */}
         </div>
-        
-        <div className="border-t border-gray-800 pt-4">
-          <p className="text-gray-300">
-            Contact: <a 
-              href="mailto:textescape42@gmail.com" 
-              className="text-blue-400 hover:text-blue-300 transition-colors"
-            >
-              textescape42@gmail.com
-            </a>
-          </p>
+
+        <div className="mt-8 pt-8 border-t border-border text-center text-sm text-muted-foreground">
+          <p>&copy; {currentYear} TEXT-ESCAPE. All rights reserved.</p>
         </div>
       </div>
     </footer>
   )
-} 
+}
+
