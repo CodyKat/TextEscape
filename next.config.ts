@@ -25,8 +25,7 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['zustand'],
   },
   
-  // 빌드 최적화
-  swcMinify: true,
+  // Next.js 15에서는 swcMinify가 기본값이며 더 이상 설정 불필요
   
   // 환경 변수 설정
   env: {
@@ -39,8 +38,8 @@ const nextConfig: NextConfig = {
   // 정적 최적화
   poweredByHeader: false,
   
-  // 정적 내보내기 최적화
-  distDir: 'out',
+  // distDir은 output: export 사용 시에만 필요
+  // API 라우트를 사용하므로 기본값(.next) 사용
 };
 
 export default withBundleAnalyzer(nextConfig);
