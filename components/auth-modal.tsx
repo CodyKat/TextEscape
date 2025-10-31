@@ -210,6 +210,13 @@ export function AuthModal({ open, onOpenChange }: AuthModalProps) {
                 <p className="text-xs text-muted-foreground mt-1">{user.email}</p>
               </div>
               <Link
+                href="/profile"
+                onClick={() => onOpenChange(false)}
+                className="w-full rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"
+              >
+                View My Profile
+              </Link>
+              <Link
                 href="/pricing"
                 onClick={() => onOpenChange(false)}
                 className="w-full rounded-md bg-gradient-to-r from-yellow-500 to-orange-500 px-4 py-2 text-sm font-medium text-white hover:from-yellow-600 hover:to-orange-600 transition-colors flex items-center justify-center gap-2 shadow-md"

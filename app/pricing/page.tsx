@@ -40,9 +40,43 @@ function PricingContent() {
     const success = searchParams.get('success')
     const canceled = searchParams.get('canceled')
     const authOpen = searchParams.get('auth')
+    const subscriptionId = searchParams.get('subscription_id') || searchParams.get('token')
     
-    if (success) {
-      // 결제 성공 시 페이지 새로고침하여 구독 정보 갱신
+    if (success && subscriptionId) {
+      // PayPal에서 리다이렉트된 경우 구독 승인 처리
+      const approveSubscription = async () => {
+        try {
+          const res = await fetch('/api/subscription/approve', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ subscription_id: subscriptionId }),
+          })
+
+          const data = await res.json()
+
+          if (!res.ok) {
+            console.error('구독 승인 실패:', data.error)
+            alert(data.error || '구독 승인 처리 중 오류가 발생했습니다')
+            return
+          }
+
+          // 승인 성공 후 구독 정보 갱신
+          setTimeout(() => {
+            fetchSubscription()
+          }, 1000)
+        } catch (error) {
+          console.error('구독 승인 처리 오류:', error)
+          alert('구독 승인 처리 중 오류가 발생했습니다')
+        }
+      }
+
+      approveSubscription()
+      // URL 정리
+      router.replace('/pricing?success=true')
+    } else if (success) {
+      // subscription_id가 없어도 일단 구독 정보 갱신 시도
       router.replace('/pricing')
       setTimeout(() => {
         fetchSubscription()
