@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { Check, Crown, Zap, Sparkles, Loader2 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { AuthModal } from '@/components/auth-modal'
 
@@ -13,7 +13,7 @@ interface Subscription {
   status: string
 }
 
-export default function PricingPage() {
+function PricingContent() {
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null)
@@ -389,6 +389,18 @@ export default function PricingPage() {
       {/* Auth Modal */}
       <AuthModal open={isAuthModalOpen} onOpenChange={setIsAuthModalOpen} />
     </div>
+  )
+}
+
+export default function PricingPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+      </div>
+    }>
+      <PricingContent />
+    </Suspense>
   )
 }
 
