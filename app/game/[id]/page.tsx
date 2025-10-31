@@ -262,12 +262,12 @@ export default function GamePlayPage() {
 
       {/* Game Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Current Situation */}
+        {/* 초기 설정 텍스트 - 항상 표시 */}
         <div className="mb-8">
           <div className="bg-card border border-border rounded-lg p-6 mb-6">
             <div className="prose prose-invert max-w-none">
               <p className="text-lg leading-relaxed whitespace-pre-wrap">
-                {gameState.currentText}
+                {INITIAL_CONCEPTS[gameId]?.firstText}
               </p>
             </div>
           </div>
@@ -295,6 +295,19 @@ export default function GamePlayPage() {
               </div>
             ))}
             <div ref={messagesEndRef} />
+          </div>
+        )}
+
+        {/* 현재 상황 - history가 있을 때만 표시 */}
+        {gameState.history.length > 0 && (
+          <div className="mb-8">
+            <div className="bg-card border border-border rounded-lg p-6 mb-6">
+              <div className="prose prose-invert max-w-none">
+                <p className="text-lg leading-relaxed whitespace-pre-wrap">
+                  {gameState.currentText}
+                </p>
+              </div>
+            </div>
           </div>
         )}
 
