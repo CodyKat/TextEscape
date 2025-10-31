@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server'
 
 // Webhook 라우트는 body parser를 비활성화해야 함
 export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
 
 export async function POST(req: Request) {
   const body = await req.text()

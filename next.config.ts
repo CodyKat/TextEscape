@@ -5,8 +5,9 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 
 const nextConfig: NextConfig = {
-  // 정적 내보내기 설정 (프로덕션에서만 활성화)
-  output: process.env.NODE_ENV === 'production' ? 'export' : undefined,
+  // output: export는 API 라우트와 호환되지 않으므로 제거
+  // API 라우트를 사용하는 경우 서버리스 배포(Vercel 등) 필요
+  // output: process.env.NODE_ENV === 'production' ? 'export' : undefined,
   
   // 이미지 최적화 설정 (정적 내보내기를 위해 항상 unoptimized)
   images: {
