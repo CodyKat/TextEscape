@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@/lib/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
@@ -122,15 +123,52 @@ export async function POST(
     }
 
     const estimatedTokens = calculateTokens(messages)
-    const TOKEN_LIMIT = 2000
+    
+    // 사용자 구독 정보 확인
+    let tokenLimit = 2000 // 기본값: free 플랜
+    try {
+      const supabase = await createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+      
+      if (user) {
+        // 활성 구독 또는 취소 예정(canceling) 상태인 구독 조회
+        const { data: subscription } = await supabase
+          .from('subscriptions')
+          .select('plan_id, status, current_period_end')
+          .eq('user_id', user.id)
+          .in('status', ['active', 'canceling'])
+          .single()
+        
+        if (subscription) {
+          // canceling 상태이고 서비스 종료일이 지났는지 확인
+          const serviceEndDate = subscription.current_period_end 
+            ? new Date(subscription.current_period_end) 
+            : null
+          const isServiceActive = subscription.status !== 'canceling' || 
+            (serviceEndDate && serviceEndDate >= new Date())
+          
+          if (isServiceActive) {
+            // 플랜에 따라 토큰 제한 설정
+            if (subscription.plan_id === 'premium') {
+              tokenLimit = 20000
+            } else if (subscription.plan_id === 'pro') {
+              tokenLimit = Infinity // 제한 없음
+            }
+          }
+        }
+      }
+    } catch (error) {
+      // 구독 정보 조회 실패 시 기본값 사용
+      console.error('Subscription check error:', error)
+    }
 
-    if (estimatedTokens > TOKEN_LIMIT) {
+    if (tokenLimit !== Infinity && estimatedTokens > tokenLimit) {
       return NextResponse.json(
         {
           error: 'TOKEN_LIMIT_EXCEEDED',
-          message: '토큰 제한에 도달했습니다. 플랜을 업그레이드하여 더 많은 게임을 플레이하세요.',
+          message: 'reached the token limit, upgrade your plan to play more games.',
           estimatedTokens,
-          limit: TOKEN_LIMIT
+          limit: tokenLimit
         },
         { status: 403 }
       )
