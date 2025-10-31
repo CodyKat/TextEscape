@@ -14,9 +14,10 @@ interface GameRequest {
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await context.params
     const body: GameRequest = await request.json()
     const { userInput, history, concept, currentText, isRetry } = body
 
