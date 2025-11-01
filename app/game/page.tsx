@@ -442,7 +442,12 @@ export default function GamePage() {
                   key={game.id}
                   className="group relative bg-card border border-border rounded-lg overflow-hidden hover:border-primary/50 transition-all duration-200 hover:shadow-lg"
                 >
-                  <div className="relative h-48 bg-gradient-to-br from-primary/20 via-primary/10 to-primary/5 overflow-hidden">
+                  <div className="relative h-48 overflow-hidden">
+                    <img
+                      src={`/game_images/${game.image}`}
+                      alt={game.title}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent group-hover:from-black/50 transition-colors" />
                     <div className="absolute top-4 left-4 flex items-center gap-2 text-xs text-white/90 z-10">
                       <span className="font-medium">{game.author}</span>

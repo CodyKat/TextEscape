@@ -9,7 +9,7 @@ export default function Home() {
       id: 1,
       title: 'Dark Room',
       description: 'You are trapped in a dark room. There is an old door ahead and a bookshelf to your right. The choice is yours.',
-      image: '/game1.jpg',
+      image: '/game1.png',
       likes: 187,
       plays: 29000,
       bookmarks: 1700,
@@ -20,7 +20,7 @@ export default function Home() {
       id: 2,
       title: 'Maze Escape',
       description: 'You must find your way through a complex maze. Each choice determines your fate. Time is running out.',
-      image: '/game2.jpg',
+      image: '/game2.png',
       likes: 1900,
       plays: 1200000,
       bookmarks: 6200,
@@ -31,7 +31,7 @@ export default function Home() {
       id: 3,
       title: 'Space Base',
       description: 'Escape from an alien base. The spaceship systems are malfunctioning. Make choices for survival.',
-      image: '/game3.jpg',
+      image: '/game3.png',
       likes: 596,
       plays: 126000,
       bookmarks: 2700,
@@ -84,13 +84,13 @@ export default function Home() {
             <div className="flex items-center gap-4 mb-8">
               <h2 className="text-3xl font-bold">{category.title}</h2>
               <div className="flex-1 h-px bg-border" />
-              <Link
+              {/* <Link
                 href="/discover"
                 className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2"
               >
                 View All
                 <span>→</span>
-              </Link>
+              </Link> */}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {category.games.map((game) => (
@@ -99,6 +99,11 @@ export default function Home() {
                   className="group relative bg-card border border-border rounded-lg overflow-hidden hover:border-primary/50 transition-all duration-200 hover:shadow-lg"
                 >
                   <div className="relative h-48 bg-gradient-to-br from-primary/20 via-primary/10 to-primary/5 overflow-hidden">
+                  <img
+                      src={`/game_images/${game.image}`}
+                      alt={game.title}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent group-hover:from-black/50 transition-colors" />
                     <div className="absolute top-4 left-4 flex items-center gap-2 text-xs text-white/90 z-10">
                       <span className="font-medium">{game.author}</span>
